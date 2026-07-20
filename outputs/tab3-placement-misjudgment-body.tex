@@ -1,0 +1,14 @@
+\begingroup\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{4.4cm}ccc@{}}
+\hline
+\textbf{Verification policy} & \textbf{Healthy} & \textbf{Healthy} & \textbf{Fault} \\
+ & \textbf{false-pass} & \textbf{false-alarm} & \textbf{false-pass} \\
+\hline
+self-report & 38\% & 16\% & 66\% \\[1pt]
+call/health monitoring & 25\% & 2\% & 84\% \\[1pt]
+LLM judge & 0\% & 36\% & 2\% \\[1pt]
+state at report time & 2\% & 0\% & 0\% \\[1pt]
+state checked until deadline (ours) & 0\% (reference) & 0 (by construction) & 0 (by construction) \\
+\hline
+\end{tabular}
+\endgroup

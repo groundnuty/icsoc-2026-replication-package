@@ -1,0 +1,27 @@
+The judge's user message is assembled by this function (verbatim from the scoring code):
+
+def render_prompt(recording: dict) -> Tuple[str, str]:
+    """(system_prompt, user_prompt) for the judge. Serializes ONLY the
+    information-boundary-allowed fields (doc §0/§3): task spec (symbolic) + agent
+    trace + agent claim. NEVER state_timeline / fault / resolved expected.*"""
+    agent = recording.get("agent", {}) or {}
+    terms = recording.get("contract", {}).get("terms") or []
+
+    user_prompt = (
+        "GUARANTEE TERMS:\n"
+        f"{_render_terms_block(terms)}\n\n"
+        "ORIGINAL REQUEST TO THE AGENT:\n"
+        f"{agent.get('prompt_verbatim', '')}\n\n"
+        "AGENT TOOL CALLS (in order):\n"
+        f"{_render_tool_calls_block(agent.get('tool_calls') or [])}\n\n"
+        "AGENT MESSAGES:\n"
+        f"{_render_messages_block(agent.get('messages') or [])}\n\n"
+        "AGENT FINAL ANSWER:\n"
+        f"{agent.get('final_answer', '')}\n\n"
+        f"AGENT SELF-REPORT: {agent.get('self_reported', '')} "
+        f"(reported done at t={agent.get('reported_done_at_rel_s')}s)\n\n"
+        'Return JSON of exactly this shape:\n'
+        '{"verdicts": {"<term_id>": "Fulfilled"|"Violated"|"NotDetermined", ...},\n'
+        ' "rationale": "<=2 sentences citing the specific tool calls / answer that drove each verdict>"}'
+    )
+    return SYSTEM_PROMPT, user_prompt

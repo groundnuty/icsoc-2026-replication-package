@@ -1,0 +1,1 @@
+{"trial_id": "trial-a99a8778dd62", "model_leg": "sdk:claude-haiku-4-5-20251001", "population": "fault", "a2_result": {"verdict_per_term": {"T1": "NotDetermined"}, "raw_response": "", "model_id": "claude-sonnet-5", "prompt_sha": "879d428ba751", "parse_error": true, "temperature": "sdk-default(unspecified)"}, "a3b_truth": "Violated"}

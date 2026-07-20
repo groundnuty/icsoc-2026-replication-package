@@ -1,0 +1,426 @@
+{
+  "trial_id": "trial-87f0a8f3a695",
+  "sweep_id": "scored-sweep-rq1-control-clean-20260706",
+  "recorded_at": "2026-07-06T21:03:47Z",
+  "harness_version": "8d416a1",
+  "trial_start_utc": "2026-07-06T21:02:54Z",
+  "scenario_id": "E1",
+  "arm_live": "A0",
+  "arm_class": "prior_practice",
+  "model_leg": "sdk:claude-sonnet-5",
+  "trial_k": 1,
+  "concurrency": 1,
+  "model_config": {
+    "model_id": "claude-sonnet-5",
+    "temperature": "sdk-not-settable",
+    "max_tokens": "sdk-not-settable",
+    "sampling": null
+  },
+  "source_provider": "cloud-pl",
+  "agent_mcp_host": "https://cloud-pl.site-host.invalid",
+  "fault": {
+    "condition": "none"
+  },
+  "contract": {
+    "obligated_party": "agent",
+    "terms": [
+      {
+        "term_id": "T1",
+        "guarantee": "data physically present on >=2 distinct providers (source + target)",
+        "slis": [
+          "get_file_distribution.physicalSize",
+          "get_transfer.state",
+          "list_space_transfers"
+        ],
+        "slo": {
+          "predicate": "physicalSize == expected_size",
+          "min_distinct_providers": 2,
+          "target_providers": [
+            "7cfe30bef82a2c904c15624f752c58ddchd932"
+          ],
+          "target_provider_labels": [
+            "de"
+          ]
+        },
+        "t_max_s": 30.0,
+        "remedy": "re-issue / escalate / abstain (A4)"
+      }
+    ]
+  },
+  "expected": {
+    "fixture_space_id": "5173b5c773365e9005d4d44169dc8461chc659",
+    "poll_until_rel_s": 45.0,
+    "per_term": {
+      "T1": {
+        "expected_size": 4096,
+        "target_providers": [
+          "7cfe30bef82a2c904c15624f752c58ddchd932"
+        ],
+        "target_provider_labels": [
+          "de"
+        ],
+        "expected_paths": [
+          "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin"
+        ]
+      }
+    }
+  },
+  "agent": {
+    "prompt_verbatim": "Replicate the file at /sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin (space 'sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed.",
+    "tool_calls": [
+      {
+        "name": "list_space_providers",
+        "args": {
+          "space_id": "sweep_rq1-control-clean-20260706_92afe44f"
+        },
+        "result": "{\"trashDirId\":\"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\",\"spaceId\":\"5173b5c773365e9005d4d44169dc8461chc659\",\"providers\":[{\"providerName\":\"de\",\"providerId\":\"7cfe30bef82a2c904c15624f752c58ddchd932\"},{\"providerName\":\"cloud-pl\",\"providerId\":\"ec4761ab47ecda487c46edd328179824chc3bd\"}],\"name\":\"sweep_rq1-control-clean-20260706_92afe44f\",\"fileId\":\"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\",\"dirId\":\"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\",\"archivesDirId\":\"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}",
+        "ts_rel_s": 12.823,
+        "ok": true
+      },
+      {
+        "name": "get_file_distribution",
+        "args": {
+          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin"
+        },
+        "result": "{\"type\":\"REG\",\"distributionPerProvider\":{\"ec4761ab47ecda487c46edd328179824chc3bd\":{\"virtualSize\":4096,\"success\":true,\"locationsPerStorageBackend\":{\"e07175e49cb4be17f5dd6bfe654c9dafch856e\":{\"success\":true,\"location\":\"/5173b5c773365e9005d4d44169dc8461chc659/harness/inc2b/trial-87f0a8f3a695.bin\"}},\"distributionPerStorageBackend\":{\"e07175e49cb4be17f5dd6bfe654c9dafch856e\":{\"success\":true,\"physicalSize\":4096,\"blocks\":[[0,4096]]}},\"providerName\":\"cloud-pl\"},\"7cfe30bef82a2c904c15624f752c58ddchd932\":{\"virtualSize\":4096,\"success\":true,\"locationsPerStorageBackend\":{\"485f53f0af06524d20b317afb99ca9bechb4d4\":{\"success\":true,\"location\":null}},\"distributionPerStorageBackend\":{\"485f53f0af06524d20b317afb99ca9bechb4d4\":{\"success\":true,\"physicalSize\":0,\"blocks\":[]}},\"providerName\":\"de\"}}}",
+        "ts_rel_s": 13.301,
+        "ok": true
+      },
+      {
+        "name": "schedule_file_replication",
+        "args": {
+          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin",
+          "target_provider_id": "7cfe30bef82a2c904c15624f752c58ddchd932"
+        },
+        "result": "{\"transferId\":\"6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207\"}",
+        "ts_rel_s": 25.12,
+        "ok": true
+      },
+      {
+        "name": "add_file_qos_requirement",
+        "args": {
+          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin",
+          "expression": "providerId=7cfe30bef82a2c904c15624f752c58ddchd932",
+          "replicas_num": 1
+        },
+        "result": "Claude requested permissions to use mcp__onedata__add_file_qos_requirement, but you haven't granted it yet.",
+        "ts_rel_s": 25.812,
+        "ok": false
+      },
+      {
+        "name": "get_transfer",
+        "args": {
+          "transfer_id": "6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207"
+        },
+        "result": "{\"userId\":\"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\",\"type\":\"replication\",\"transferStatus\":\"scheduled\",\"startTime\":0,\"spaceId\":\"5173b5c773365e9005d4d44169dc8461chc659\",\"scheduleTime\":1783371799,\"rerunId\":null,\"replicationStatus\":\"scheduled\",\"replicatingProviderId\":\"7cfe30bef82a2c904c15624f752c58ddchd932\",\"mthHist\":{},\"minHist\":{},\"lastUpdate\":0,\"hrHist\":{},\"finishTime\":0,\"filesToProcess\":0,\"filesReplicated\":0,\"filesProcessed\":0,\"filesFailed\":0,\"filesEvicted\":0,\"filePath\":\"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin\",\"fileId\":\"000000000052C3D067756964236332383761393838353536383763333464346236373535646336626536663638636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\",\"evictionStatus\":\"skipped\",\"evictingProviderId\":null,\"effectiveJobTransferId\":\"6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207\",\"effectiveJobStatus\":\"scheduled\",\"dyHist\":{},\"dataSourceType\":\"file\",\"callback\":null,\"bytesReplicated\":0}",
+        "ts_rel_s": 31.35,
+        "ok": true
+      },
+      {
+        "name": "get_transfer",
+        "args": {
+          "transfer_id": "6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207"
+        },
+        "result": "{\"userId\":\"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\",\"type\":\"replication\",\"transferStatus\":\"scheduled\",\"startTime\":0,\"spaceId\":\"5173b5c773365e9005d4d44169dc8461chc659\",\"scheduleTime\":1783371799,\"rerunId\":null,\"replicationStatus\":\"scheduled\",\"replicatingProviderId\":\"7cfe30bef82a2c904c15624f752c58ddchd932\",\"mthHist\":{},\"minHist\":{},\"lastUpdate\":0,\"hrHist\":{},\"finishTime\":0,\"filesToProcess\":0,\"filesReplicated\":0,\"filesProcessed\":0,\"filesFailed\":0,\"filesEvicted\":0,\"filePath\":\"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin\",\"fileId\":\"000000000052C3D067756964236332383761393838353536383763333464346236373535646336626536663638636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\",\"evictionStatus\":\"skipped\",\"evictingProviderId\":null,\"effectiveJobTransferId\":\"6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207\",\"effectiveJobStatus\":\"scheduled\",\"dyHist\":{},\"dataSourceType\":\"file\",\"callback\":null,\"bytesReplicated\":0}",
+        "ts_rel_s": 34.494,
+        "ok": true
+      },
+      {
+        "name": "get_file_distribution",
+        "args": {
+          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin"
+        },
+        "result": "{\"type\":\"REG\",\"distributionPerProvider\":{\"ec4761ab47ecda487c46edd328179824chc3bd\":{\"virtualSize\":4096,\"success\":true,\"locationsPerStorageBackend\":{\"e07175e49cb4be17f5dd6bfe654c9dafch856e\":{\"success\":true,\"location\":\"/5173b5c773365e9005d4d44169dc8461chc659/harness/inc2b/trial-87f0a8f3a695.bin\"}},\"distributionPerStorageBackend\":{\"e07175e49cb4be17f5dd6bfe654c9dafch856e\":{\"success\":true,\"physicalSize\":4096,\"blocks\":[[0,4096]]}},\"providerName\":\"cloud-pl\"},\"7cfe30bef82a2c904c15624f752c58ddchd932\":{\"virtualSize\":4096,\"success\":true,\"locationsPerStorageBackend\":{\"485f53f0af06524d20b317afb99ca9bechb4d4\":{\"success\":true,\"location\":\"/5173b5c773365e9005d4d44169dc8461chc659/harness/inc2b/trial-87f0a8f3a695.bin\"}},\"distributionPerStorageBackend\":{\"485f53f0af06524d20b317afb99ca9bechb4d4\":{\"success\":true,\"physicalSize\":4096,\"blocks\":[[0,4096]]}},\"providerName\":\"de\"}}}",
+        "ts_rel_s": 35.098,
+        "ok": true
+      }
+    ],
+    "messages": [
+      {
+        "role": "assistant",
+        "tool_use": {
+          "name": "mcp__onedata__list_space_providers",
+          "input": {
+            "space_id": "sweep_rq1-control-clean-20260706_92afe44f"
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "tool_use": {
+          "name": "mcp__onedata__get_file_distribution",
+          "input": {
+            "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin"
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "tool_use": {
+          "name": "mcp__onedata__schedule_file_replication",
+          "input": {
+            "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin",
+            "target_provider_id": "7cfe30bef82a2c904c15624f752c58ddchd932"
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "tool_use": {
+          "name": "mcp__onedata__add_file_qos_requirement",
+          "input": {
+            "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin",
+            "expression": "providerId=7cfe30bef82a2c904c15624f752c58ddchd932",
+            "replicas_num": 1
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "tool_use": {
+          "name": "mcp__onedata__get_transfer",
+          "input": {
+            "transfer_id": "6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207"
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "tool_use": {
+          "name": "mcp__onedata__get_transfer",
+          "input": {
+            "transfer_id": "6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207"
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "tool_use": {
+          "name": "mcp__onedata__get_file_distribution",
+          "input": {
+            "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-87f0a8f3a695.bin"
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "text": "The file is now durably available at two sites:\n\n- **cloud-pl** \u2014 full replica (4096/4096 bytes, single contiguous block)\n- **de** \u2014 full replica (4096/4096 bytes, single contiguous block)\n\nI verified this via `get_file_distribution` after scheduling the replication (transfer `6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207`) \u2014 both providers report the complete file physically stored, not just a pending/partial copy. The requested placement, including the 'de' site, is confirmed.\n\nNote: I attempted to also attach a QoS requirement (`providerId=de`, 1 replica) so the system keeps auto-healing this placement over time, but that call needs a permission grant I don't currently have. The replica is fully in place right now regardless \u2014 let me know if you'd like me to also set up that standing QoS guarantee, and I can retry once granted."
+      }
+    ],
+    "final_answer": "The file is now durably available at two sites:\n\n- **cloud-pl** \u2014 full replica (4096/4096 bytes, single contiguous block)\n- **de** \u2014 full replica (4096/4096 bytes, single contiguous block)\n\nI verified this via `get_file_distribution` after scheduling the replication (transfer `6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207`) \u2014 both providers report the complete file physically stored, not just a pending/partial copy. The requested placement, including the 'de' site, is confirmed.\n\nNote: I attempted to also attach a QoS requirement (`providerId=de`, 1 replica) so the system keeps auto-healing this placement over time, but that call needs a permission grant I don't currently have. The replica is fully in place right now regardless \u2014 let me know if you'd like me to also set up that standing QoS guarantee, and I can retry once granted.",
+    "self_reported": "done",
+    "reported_done_at_rel_s": 46.004,
+    "raw_trace": "absent-by-design",
+    "error": null
+  },
+  "state_timeline": {
+    "poll_interval_s": 3.0,
+    "poll_until_rel_s": 45.0,
+    "polled_past_t_max": true,
+    "samples": [
+      {
+        "t_rel_s": 0.203,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 0,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 0.203,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 3.351,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 0,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 3.351,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 27.508,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 0,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 27.508,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 30.641,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 4096,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 30.641,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 33.775,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 4096,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 33.775,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 36.907,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 4096,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 36.907,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 40.041,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 4096,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 40.041,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 43.175,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 4096,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 43.175,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 46.318,
+        "term_id": "T1",
+        "sli_name": "physicalSize",
+        "value": 4096,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 46.318,
+        "term_id": "T1",
+        "sli_name": "provider_health",
+        "value": true,
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      }
+    ],
+    "transfer_status_samples": [
+      {
+        "t_rel_s": 46.976,
+        "term_id": "T1",
+        "sli_name": "get_transfer.replicationStatus",
+        "value": "completed",
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 48.996,
+        "term_id": "T1",
+        "sli_name": "get_transfer.replicationStatus",
+        "value": "completed",
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      },
+      {
+        "t_rel_s": 51.016,
+        "term_id": "T1",
+        "sli_name": "get_transfer.replicationStatus",
+        "value": "completed",
+        "provider": "7cfe30bef82a2c904c15624f752c58ddchd932",
+        "probe_ok": true
+      }
+    ]
+  },
+  "cost": {
+    "verifier": {
+      "probe_count": 18,
+      "wall_latency_s": 46.905
+    },
+    "model": {
+      "prompt_tokens": 206,
+      "completion_tokens": 2584,
+      "estimation": "estimated_sdk_x_listprice",
+      "usd": 0.183959
+    },
+    "retry": {
+      "attempts": 0,
+      "model_usd": 0.0,
+      "verifier_probe_count": 0
+    }
+  },
+  "otel": {
+    "harness_trace_id": "d9534689-1cd1-4821-b4d3-708a9dd8c1d0",
+    "poll_interval_s": 3.0,
+    "correlated": false
+  },
+  "leg_scaffold": "sdk_loop",
+  "a2_result": {
+    "verdict_per_term": {
+      "T1": "Violated"
+    },
+    "raw_response": "{\"verdicts\": {\"T1\": \"Violated\"}, \"rationale\": \"get_file_distribution at t=13.301s showed only the source (cloud-pl) with physicalSize==4096 while target 'de' had physicalSize=0; get_transfer checks at t=31.35s and t=34.494s still showed the replication 'scheduled' with 0 bytes/files replicated, and only the t=35.098s get_file_distribution confirmed physicalSize==4096 on both providers \u2014 i.e. the >=2-provider SLO was not evidenced as met until ~35s, past the 30.0s deadline, with no earlier evidence supporting compliance.\"}",
+    "model_id": "claude-sonnet-5",
+    "prompt_sha": "879d428ba751",
+    "parse_error": false,
+    "temperature": "sdk-default(unspecified)"
+  }
+}

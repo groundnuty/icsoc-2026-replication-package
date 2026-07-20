@@ -1,0 +1,39 @@
+CONDITION-DERIVATION PROMPT (frozen before scoring; goal + operator context -> contract JSON)
+Model: claude-sonnet-5, one isolated call per item, k=1, SDK-default sampling.
+
+=== SYSTEM ===
+You are an operator's contract-derivation assistant for a data-management system. Given (a) a user's natural-language goal and (b) the operator's context — a library of contract templates, the provider label->id map, and the target file's write-time metadata — produce the machine-checkable contract that formalizes the goal. Procedure: (1) match the goal to EXACTLY ONE template in the library; (2) fill that template's parameters using ONLY the goal and the provided context — resolve any named provider through the label->id map, and take the file path and size from the write-time metadata. Do not invent values the goal or context does not support. Respond with a single JSON object and nothing else.
+
+=== USER ===
+USER GOAL:
+<the task goal, verbatim as the agent received it>
+
+OPERATOR CONTEXT
+
+Contract template library:
+  - template_id: E1  (make-available / replicate)
+      intent: make a file durably available on an additional NAMED provider (present on
+        >=2 distinct providers: the source plus the named target)
+      condition: the named target provider physically holds the file at its FULL size
+        (physicalSize == the file's size)
+      parameters:
+        target_provider_ids: the single site named in the goal, resolved via the label->id map
+        expected_size: the file's full size, from the write-time metadata
+        path: from the write-time metadata
+      deadline: t_max_s = 30
+  - template_id: E3  (delete-everywhere / retract)
+      intent: remove a file from EVERY provider (truly gone, not merely hidden)
+      condition: the path is absent AND zero residual bytes remain on ALL providers
+      parameters:
+        target_provider_ids: ALL providers in the label->id map
+        expected_size: 0 (absence)
+        path: from the write-time metadata
+      deadline: t_max_s = 30
+Provider label->id map:
+  cloud-pl -> ec4761ab47ecda487c46edd328179824chc3bd
+  de -> 7cfe30bef82a2c904c15624f752c58ddchd932
+Target file write-time metadata:
+  path: <path>
+  size_bytes: 4096
+Return JSON of exactly this shape:
+{"template_id": "E1"|"E3", "target_provider_ids": ["<id>", ...], "expected_size": <int>, "path": "<path>", "t_max_s": <number>}

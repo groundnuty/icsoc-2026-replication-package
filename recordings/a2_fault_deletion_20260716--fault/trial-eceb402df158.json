@@ -1,0 +1,1 @@
+{"trial_id": "trial-eceb402df158", "model_leg": "forge:zai-org/GLM-4.7-Flash", "population": "fault", "a2_result": {"verdict_per_term": {"T1": "NotDetermined"}, "raw_response": "", "model_id": "claude-sonnet-5", "prompt_sha": "879d428ba751", "parse_error": true, "temperature": "sdk-default(unspecified)"}, "a3b_truth": "Violated"}
