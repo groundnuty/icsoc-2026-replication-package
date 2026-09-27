@@ -12,6 +12,9 @@ scoring code reads nothing else.
 | `sweep_id` | the run this trial belongs to |
 | `scenario_id` | `E1` placement, `E3` deletion |
 | `model_leg` | the agent model, as `<serving>:<model id>` |
+| `model_config` | the requested model id and its generation settings |
+| `trial_start_utc` | trial start time (UTC); orders the trials of a run |
+| `harness_version` | the harness version that produced the trial |
 | `trial_k` | replicate index for the deletion runs; 1 for the placement runs, whose replicates are separate trials distinguished by `trial_id` |
 | `source_provider` | site that initially holds the file |
 | `fault.condition` | the injected condition, or absent on healthy trials |

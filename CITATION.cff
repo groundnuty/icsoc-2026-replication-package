@@ -5,10 +5,18 @@ title: "Replication package for 'When the Consumer Is an Agent: Execution-Ground
 authors:
   - family-names: Orzechowski
     given-names: Michał
+    orcid: "https://orcid.org/0000-0002-8558-1283"
+    affiliation: "AGH University of Krakow; ACK Cyfronet AGH; Sano Centre for Computational Medicine"
   - family-names: Słota
     given-names: Renata G.
+    orcid: "https://orcid.org/0000-0001-7424-9317"
+    affiliation: "AGH University of Krakow"
   - family-names: Kitowski
     given-names: Jacek
+    orcid: "https://orcid.org/0000-0003-3902-8310"
+    affiliation: "AGH University of Krakow; ACK Cyfronet AGH"
+version: 1.0.0
+repository-code: "https://github.com/groundnuty/icsoc-2026-replication-package"
 license:
   - MIT
   - CC-BY-4.0

@@ -34,8 +34,9 @@ report "private IPs" "$(grep -rlE "$PRIV_IP" "${TEXT[@]}" . 2>/dev/null | grep -
 
 # URL hosts must be on this list: the public service endpoints (Onezone, the two storage
 # sites, the model endpoint), the public chart repository, license URLs, a library
-# documentation link in recorded output, and reserved example domains used in tests.
-ALLOW='^(cloud-pl\.data\.spice-platform\.eu|data\.spice-platform\.eu|149-156-182-166\.sslip\.io|llmlab\.plgrid\.pl|onedata\.github\.io|creativecommons\.org|wiki\.creativecommons\.org|errors\.pydantic\.dev|localhost|127\.0\.0\.1|[A-Za-z0-9.-]+\.(example|invalid))$'
+# documentation link in recorded output, ORCID identifiers, this repository on GitHub,
+# and reserved example domains used in tests.
+ALLOW='^(cloud-pl\.data\.spice-platform\.eu|data\.spice-platform\.eu|149-156-182-166\.sslip\.io|llmlab\.plgrid\.pl|onedata\.github\.io|creativecommons\.org|wiki\.creativecommons\.org|errors\.pydantic\.dev|orcid\.org|github\.com|localhost|127\.0\.0\.1|[A-Za-z0-9.-]+\.(example|invalid))$'
 hosts=$(grep -rhoE 'https?://[A-Za-z0-9.-]+' "${TEXT[@]}" . 2>/dev/null | sed -E 's#https?://##' | sort -u | grep -vE "$ALLOW")
 report "hosts" "$hosts"
 

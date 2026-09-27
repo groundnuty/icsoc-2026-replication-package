@@ -1,0 +1,40 @@
+{
+  "upload_type": "software",
+  "title": "Replication package for 'When the Consumer Is an Agent: Execution-Grounded Service-Level Agreements'",
+  "creators": [
+    {
+      "name": "Orzechowski, Michał",
+      "affiliation": "AGH University of Krakow; ACK Cyfronet AGH; Sano Centre for Computational Medicine",
+      "orcid": "0000-0002-8558-1283"
+    },
+    {
+      "name": "Słota, Renata G.",
+      "affiliation": "AGH University of Krakow",
+      "orcid": "0000-0001-7424-9317"
+    },
+    {
+      "name": "Kitowski, Jacek",
+      "affiliation": "AGH University of Krakow; ACK Cyfronet AGH",
+      "orcid": "0000-0003-3902-8310"
+    }
+  ],
+  "description": "<p>Replication package for M. Orzechowski, R. G. Słota and J. Kitowski, <i>When the Consumer Is an Agent: Execution-Grounded Service-Level Agreements</i>, ICSOC 2026 (Lecture Notes in Computer Science, Springer).</p><p>It contains the per-trial recordings of the study; the scoring code, which regenerates every table and every number stated in the paper's text from the recordings with one command (<code>make check</code>, standard-library Python); the experiment harness with its configuration; and an offline test suite. See <code>README.md</code>.</p><p>The package is maintained on GitHub: <a href=\"https://github.com/groundnuty/icsoc-2026-replication-package\">https://github.com/groundnuty/icsoc-2026-replication-package</a>. This record archives its release.</p><p>Licences: code under the MIT License; recordings and prompts under CC BY 4.0 (see <code>LICENSE</code>).</p>",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "service-level agreements",
+    "LLM agents",
+    "runtime verification",
+    "completion contracts",
+    "Onedata",
+    "replication package"
+  ],
+  "version": "1.0.0",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/groundnuty/icsoc-2026-replication-package",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}

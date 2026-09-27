@@ -44,12 +44,10 @@ section | number | value | population | level
 §5.3 | recovered trials whose recorded first-attempt verdict is not Fulfilled | 53 of 53 | gated placement, injected delay (56) | first attempt
 §5.3 | gated deletion verified / contradicted (Wilson 95% upper bound) | 50 of 50 / 0 (7.1%) | gated deletion (56 planned), eligible 50 | final
 §5.3 | final NotDetermined (placement / deletion) | 1 / 0 | gated | final
-§5.3 | first-cycle NotDetermined (healthy / faulted) | 35 (13 / 22) | gated placement | cycle 1
 §5.3 | unverified trials ending NotDetermined | 1 of 3 | gated placement | final
 §5.3 | healthy recovered = re-invoke + re-check + service wait | 29 = 16 + 13 + 0 | gated placement, no fault (56) | trial
-§5.3 | faulted gate cycles (wait / re-check / re-invoke) | 40 / 22 / 16 | gated placement, injected delay (56) | cycle
-§5.3 | re-invoked trials whose first attempt had no valid target operation (healthy) | 16 of 16 (2 of them sent a schedule to the target with a malformed file path, rejected by the service) | gated placement, no fault (56) | first attempt; its calls are the recorded calls before 45 s (the cycle-1 verify window closes at 45 s, so a second attempt cannot start earlier); valid = schedule_file_replication to the target provider for the trial's file, accepted by the service
-§5.3 | re-invoked trials whose first attempt had no valid target operation (faulted) | 16 of 16 (2 of them sent a schedule to the target with a malformed file path, rejected by the service) | gated placement, injected delay (56) | first attempt; its calls are the recorded calls before 45 s (the cycle-1 verify window closes at 45 s, so a second attempt cannot start earlier); valid = schedule_file_replication to the target provider for the trial's file, accepted by the service
+§5.3 (basis of the always-wait bound) | re-invoked trials whose first attempt had no valid target operation (healthy) | 16 of 16 (2 of them sent a schedule to the target with a malformed file path, rejected by the service) | gated placement, no fault (56) | first attempt; its calls are the recorded calls before 45 s (the cycle-1 verify window closes at 45 s, so a second attempt cannot start earlier); valid = schedule_file_replication to the target provider for the trial's file, accepted by the service
+§5.3 (basis of the always-wait bound) | re-invoked trials whose first attempt had no valid target operation (faulted) | 16 of 16 (2 of them sent a schedule to the target with a malformed file path, rejected by the service) | gated placement, injected delay (56) | first attempt; its calls are the recorded calls before 45 s (the cycle-1 verify window closes at 45 s, so a second attempt cannot start earlier); valid = schedule_file_replication to the target provider for the trial's file, accepted by the service
 §5.3 | always-wait bound (verified without re-invoke) vs routed | 40/56 vs 56; 39/56 vs 53 | gated placement | final
 §5.3 | recovered without re-engaging the agent (healthy / faulted) | 13 / 39 | gated placement | trial
 §5.3 | spend change with the gate (min–max) | +5.2% to +16.8% | SDK-billed arms, 8-trial cells | 
@@ -60,8 +58,9 @@ section | number | value | population | level
 §5.3 | mean verifier probes per trial (gated healthy) | 31.8 | gated healthy | trial
 §5.3 | mean verifier probes per trial (gated faulted) | 56.3 | gated faulted | trial
 §5.3 | CPU core-s per contract-minute at 3 s (N = 1 / 10 / 50 / 100) | 0.216 / 0.214 / 0.208 / 0.206 | verifier overhead benchmark | median of 3 repetitions
+§5.3 | CPU core-s per contract-minute at 5 s (N = 1 / 10 / 50 / 100) | 0.137 / 0.129 / 0.129 / 0.130 | verifier overhead benchmark | median of 3 repetitions
+§5.3 | CPU core-s per contract-minute at 1 s (N = 1 / 10 / 50 / 100) | 0.587 / 0.557 / 0.504 / 0.437 | verifier overhead benchmark | median of 3 repetitions
 §5.3 | 100 contracts at 3 s: cores used / peak RSS MiB | 0.34 / 54 | verifier overhead benchmark | median of 3 repetitions
-§5.3 | 100 contracts at 3 s: schedule drift p95 (s) | 0.63 | verifier overhead benchmark | median of 3 repetitions
 §5.3 | probe failures, all cells | 0 | verifier overhead benchmark | median of 3 repetitions
 §5.3 | other client's median latency vs baseline (range over cells) | 0.98 to 1.09 | verifier overhead benchmark | median of 3 repetitions
 §5.4 | wrong-target schedules / omitted transfers / violations (uninformed) | 10/56 / 11/56 / 23/56 | same-day paired run (uninformed) | trial
