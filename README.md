@@ -6,7 +6,8 @@ Notes in Computer Science, Springer).
 
 This repository holds the per-trial recordings behind the paper, the code that scores
 them, the harness that produced them, and one command that regenerates every table and
-every number stated in the paper's text from the recordings.
+every number stated in the paper's text from the recordings. It is maintained at
+https://github.com/groundnuty/icsoc-2026-replication-package; releases are archived on Zenodo.
 
 ## Quick start
 

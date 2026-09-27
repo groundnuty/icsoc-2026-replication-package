@@ -16,6 +16,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-3902-8310"
     affiliation: "AGH University of Krakow; ACK Cyfronet AGH"
 version: 1.0.0
+repository-code: "https://github.com/groundnuty/icsoc-2026-replication-package"
 license:
   - MIT
   - CC-BY-4.0
