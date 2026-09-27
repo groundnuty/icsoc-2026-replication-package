@@ -28,6 +28,70 @@ P_GATE_FLT  = ["a4_sweep--a4-fault-ss%d-20260706" % i for i in (1, 2, 3)]
 P_JUDGE_FLT = "a2_fault_deletion_20260716--fault"
 
 
+# Expected recordings: directory -> number of trial-*.json files. The overhead
+# benchmark directory is checked separately (cell-run pairs plus fixed files).
+EXPECTED_TRIALS = {
+    "scored_sweep--rq1-control-clean-20260706": 56,
+    "scored_sweep--rq2-ss1-gated-20260706": 24,
+    "scored_sweep--rq2-ss2-gated-20260706": 16,
+    "scored_sweep--rq2-ss3-gated-20260706": 16,
+    "e3_sweep--e3-scored-20260707": 56,
+    "a4_sweep--a4-control-v3-20260706": 56,
+    "a4_sweep--a4-fault-ss1-20260706": 24,
+    "a4_sweep--a4-fault-ss2-20260706": 16,
+    "a4_sweep--a4-fault-ss3-20260706": 16,
+    "scored_sweep--e1-informed-20260716": 56,
+    "scored_sweep--e1-uninformed-paired-20260716": 56,
+    "derivation_pilot_20260716--E1": 56,
+    "derivation_pilot_20260716--E3": 56,
+    "a2_fault_deletion_20260716--fault": 56,
+    "a2_fault_deletion_20260716--deletion": 56,
+    "a4_sweep--e3-a4-healthy-v2-20260715": 48,
+    "a4_sweep--e3-a4-healthy-v2-glm52-20260715": 8,
+}
+A6_DIR = "a6_overhead--20260926"
+A6_CELL_RUNS = 51
+A6_FIXED = {"manifest.json", "files.json", "dryrun_manifest.json",
+            "dryrun_P1-3_r0.cell.json", "dryrun_P1-3_r0.canary.json"}
+
+
+def check_recordings():
+    """Fail loudly unless recordings/ holds exactly the expected files."""
+    problems = []
+    present = {d for d in os.listdir(REC) if os.path.isdir(os.path.join(REC, d))}
+    for d in sorted(present - set(EXPECTED_TRIALS) - {A6_DIR}):
+        problems.append("unexpected directory: %s" % d)
+    for d, n in sorted(EXPECTED_TRIALS.items()):
+        if d not in present:
+            problems.append("missing directory: %s" % d)
+            continue
+        names = os.listdir(os.path.join(REC, d))
+        trials = [f for f in names if f.startswith("trial-") and f.endswith(".json")]
+        if len(trials) != n:
+            problems.append("%s: %d trial files, expected %d" % (d, len(trials), n))
+        if len(names) != len(trials):
+            problems.append("%s: unexpected files %s" % (d, sorted(set(names) - set(trials))))
+    if A6_DIR not in present:
+        problems.append("missing directory: %s" % A6_DIR)
+    else:
+        names = set(os.listdir(os.path.join(REC, A6_DIR)))
+        cells = {f for f in names if f.endswith(".cell.json") and not f.startswith("dryrun_")}
+        canaries = {f for f in names if f.endswith(".canary.json") and not f.startswith("dryrun_")}
+        if len(cells) != A6_CELL_RUNS or {c[:-len(".cell.json")] for c in cells} != \
+                {c[:-len(".canary.json")] for c in canaries}:
+            problems.append("%s: %d cell / %d client files, expected %d matched pairs"
+                            % (A6_DIR, len(cells), len(canaries), A6_CELL_RUNS))
+        if not A6_FIXED <= names:
+            problems.append("%s: missing %s" % (A6_DIR, sorted(A6_FIXED - names)))
+        extra = names - cells - canaries - A6_FIXED
+        if extra:
+            problems.append("%s: unexpected files %s" % (A6_DIR, sorted(extra)))
+    if problems:
+        sys.exit("recordings check FAILED:\n  " + "\n  ".join(problems))
+    total = sum(EXPECTED_TRIALS.values()) + 2 * A6_CELL_RUNS + len(A6_FIXED)
+    print("recordings check: %d files in %d directories, as expected" % (total, len(EXPECTED_TRIALS) + 1))
+
+
 def load(*dirs):
     out = []
     for d in dirs:
@@ -132,29 +196,58 @@ def write(name, text):
     print("  wrote outputs/%s" % name)
 
 
+P_GATE_DEL = ["a4_sweep--e3-a4-healthy-v2-20260715", "a4_sweep--e3-a4-healthy-v2-glm52-20260715"]
+P_JUDGE_DEL = "a2_fault_deletion_20260716--deletion"
+SHORT = {"Qwen3-Coder-30B-A3B-Instruct": "Qwen3-Coder-30B", "Llama-3.3-70B-Instruct": "Llama-3.3-70B",
+         "claude-haiku-4-5-20251001": "claude-haiku-4-5"}
+
+
+def judge_side_verdicts(directory):
+    """Transcript-judge verdicts stored beside a population, keyed by trial id."""
+    m = {}
+    for f in glob.glob(os.path.join(REC, directory, "*.json")):
+        with open(f) as fh:
+            s = json.load(fh)
+        m[s["trial_id"]] = (s["a2_result"].get("verdict_per_term") or {}).get(T)
+    return m
+
+
+def frac(k, n):
+    """Cell text as printed: 'k/n (p%)', or 'k/n' when k is 0."""
+    return "%d/%d" % (k, n) if k == 0 else r"%d/%d (%d\%%)" % (k, n, pct(k, n))
+
+
+def setup_valid(r):
+    """A trial counts only if its setup established the pre-agent state it requires
+    (for deletion: a converged two-site replica). Recorded per trial."""
+    return not (r["expected"]["per_term"].get(T, {}) or {}).get("setup_invalid", False)
+
+
 def main():
+    check_recordings()
     H = load(P_HEALTHY)
     F = load(*P_FAULT)
     D = load(P_DELETION)
     G = load(P_GATE_OK)
     GF = load(*P_GATE_FLT)
+    GD = load(*P_GATE_DEL)
     fault_judge = judge_fault_verdicts()
-    print("populations: healthy %d | fault %d | deletion %d | gated %d | gated-fault %d"
-          % (len(H), len(F), len(D), len(G), len(GF)))
+    del_judge = judge_side_verdicts(P_JUDGE_DEL)
+    print("populations: healthy %d | fault %d | deletion %d | gated %d | gated-fault %d | gated-deletion %d"
+          % (len(H), len(F), len(D), len(G), len(GF), len(GD)))
 
-    # ---------------- tab2: read-back classes ----------------
+    # ---------------- read-back classes ----------------
     cc = Counter()
     for r in H:
         if A0(r) == "Fulfilled" and TRUTH(r) == "Violated":
             ex = r["expected"]["per_term"][T]
             cc[readback_class(r, ex.get("expected_size"), (ex.get("target_providers") or [None])[0])] += 1
-    n21 = sum(cc.values())
     write("tab2-readback-classes-body.tex", r"""\begingroup\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}p{3.4cm}c p{6.0cm}@{}}
 \hline
 \textbf{Read-back class} & \textbf{$n$ (of %d)} & \textbf{What the recorded read showed} \\
 \hline
-Read, then ignored & %d & Read-back showed nothing placed at the target; reported done anyway. \\[1pt]
+Read, then ignored & %d & Nothing at the target; reported done anyway. \\[1pt]
 Job status, not data & %d & Took the transfer job's successful submission as arrival; the target itself still held zero bytes. \\[1pt]
 Late-but-real convergence & %d & Placement genuinely converged, but only past the 30-second deadline. \\[1pt]
 Wrong signal (directory aggregate) & %d & Read a nonzero parent-directory total, mistaking it for the target file. \\[1pt]
@@ -162,73 +255,74 @@ No read-back & %d & No read-back issued before reporting done. \\
 \hline
 \end{tabular}
 \endgroup
-""" % (n21, cc["read then ignored"], cc["job status"], cc["late-but-real"],
+""" % (sum(cc.values()), cc["read then ignored"], cc["job status"], cc["late-but-real"],
        cc["wrong signal"], cc["no read-back"]))
 
-    # ---------------- tab3: placement misjudgment ----------------
-    def fp_fa(recs, arm, truth):
-        fp = fa = 0
-        for r in recs:
-            t, v = truth(r), arm(r)
-            if v == "Fulfilled" and t == "Violated":
-                fp += 1
-            if v in ("Violated", "NotDetermined") and t == "Fulfilled":
-                fa += 1
-        return fp, fa
+    # ---------------- placement misjudgment ----------------
     A2 = lambda r: A2_of(r, fault_judge)                                # noqa: E731
+
+    def fp_fa(recs, arm, truth):
+        fp = sum(1 for r in recs if arm(r) == "Fulfilled" and truth(r) == "Violated")
+        fa = sum(1 for r in recs if arm(r) in ("Violated", "NotDetermined") and truth(r) == "Fulfilled")
+        return fp, fa
     rows = []
-    for label, arm in [("self-report", A0), ("call/health monitoring", A1),
-                       ("LLM judge", A2), ("state at report time", A3A)]:
+    for label, arm in [("self-report", A0), ("call/health monitoring", A1), ("transcript judge", A2),
+                       ("state at report time", A3A), ("state until deadline (reference)", TRUTH)]:
         hfp, hfa = fp_fa(H, arm, TRUTH)
         ffp, _ = fp_fa(F, arm, TRUTH)
-        rows.append((label, pct(hfp, len(H)), pct(hfa, len(H)), pct(ffp, len(F))))
+        rows.append("%s & %s & %s & %s" % (label, frac(hfp, len(H)), frac(hfa, len(H)), frac(ffp, len(F))))
     write("tab3-placement-misjudgment-body.tex", r"""\begingroup\setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}p{4.4cm}ccc@{}}
 \hline
-\textbf{Verification policy} & \textbf{Healthy} & \textbf{Healthy} & \textbf{Fault} \\
- & \textbf{false-pass} & \textbf{false-alarm} & \textbf{false-pass} \\
+\textbf{Completion policy} & \textbf{Healthy FP} & \textbf{Healthy FA} & \textbf{Fault FP} \\
 \hline
-""" + "".join(r"%s & %d\%% & %d\%% & %d\%% \\[1pt]" % r_ + "\n" for r_ in rows) +
-        r"""state checked until deadline (ours) & 0\% (reference) & 0 (by construction) & 0 (by construction) \\
+""" + " \\\\[1pt]\n".join(rows) + r""" \\
 \hline
 \end{tabular}
 \endgroup
 """)
 
-    # ---------------- tab5: deletion misjudgment ----------------
+    # ---------------- deletion misjudgment ----------------
+    D_A2 = lambda r: del_judge.get(r["trial_id"])                       # noqa: E731
     dv = sum(1 for r in D if D_TRUTH(r) == "Violated")
-    d_rows = []
-    for label, arm in [("self-report", D_A0), ("call/health monitoring", D_A1),
-                       ("state at report time", D_A3A)]:
+    rows = []
+    for label, arm in [("self-report", D_A0), ("call/health monitoring", D_A1), ("transcript judge", D_A2),
+                       ("state at report time", D_A3A), ("state until deadline (reference)", D_TRUTH)]:
         fp = sum(1 for r in D if arm(r) == "Fulfilled" and D_TRUTH(r) == "Violated")
-        d_rows.append((label, pct(fp, dv)))
+        rows.append("%s & %s & %s" % (label, frac(fp, len(D)), frac(fp, dv)))
     write("tab5-deletion-misjudgment-body.tex", r"""\begingroup\setlength{\tabcolsep}{6pt}
-\begin{tabular}{@{}p{6.2cm}c@{}}
+\begin{tabular}{@{}p{5.2cm}cc@{}}
 \hline
-\textbf{Verification policy} & \textbf{False-passed} \\
+\textbf{Completion policy} & \textbf{FP incidence} & \textbf{FP among Violated} \\
 \hline
-""" + "".join(r"%s & %d\%% \\[1pt]" % r_ + "\n" for r_ in d_rows) +
-        r"""state checked until deadline (residue reference) & 0\% \\
+""" + " \\\\[1pt]\n".join(rows) + r""" \\
 \hline
 \end{tabular}
 \endgroup
 """)
 
-    # ---------------- tab6: attribution ----------------
-    cm = rq2.confusion_matrix(F)
-    raw = pct(round(cm["accuracy_ground_truthable"] * 100), 100)
+    # ---------------- attribution ----------------
+    m = rq2.confusion_matrix(F)["matrix"]            # rows: truth; columns: emitted attribution
+    n_all = sum(sum(row.values()) for row in m.values())
+    truthable = sum(sum(m[t].values()) for t in ("agent", "service", "both"))
+    observable = sum(m["service"].values())
+    shadowed = sum(m["both"].values())
+    agree = m["service"]["service"]
     write("tab6-attribution-body.tex", r"""\begingroup\setlength{\tabcolsep}{6pt}
-\begin{tabular}{@{}cc@{}}
+\begin{tabular}{@{}l c@{}}
 \hline
-\textbf{Raw accuracy} & \textbf{Evidence-conditional consistency} \\
+\textbf{Attribution quantity} & \textbf{Observed result} \\
 \hline
-%d\%% & 100\%% \\
+ground-truthable against injected cause & %s \\
+evidence observable & %s \\
+shadowed by missing valid operation & %s \\
+agreement when evidence observable & %s \\
 \hline
 \end{tabular}
 \endgroup
-""" % raw)
+""" % (frac(truthable, n_all), frac(observable, truthable), frac(shadowed, truthable), frac(agree, observable)))
 
-    # ---------------- tab7: rescue mechanism ----------------
+    # ---------------- recovery mechanism (healthy gated placement) ----------------
     per = defaultdict(lambda: [0, 0, 0])
     for r in G:
         a4 = r.get("a4_result") or {}
@@ -239,12 +333,10 @@ No read-back & %d & No read-back issued before reporting done. \\
         rem = [s.get("remedy") for s in a4.get("remedy_trail", [])]
         if any(x in ("reinvoke_agent", "reinvoke_then_wait") for x in rem):
             per[k][1] += 1
-        else:                       # rescued without a re-invoke == rescued by waiting
+        else:                       # recovered without re-engaging the agent: the re-check
             per[k][2] += 1
     ORDER = ["Qwen3-Coder-30B-A3B-Instruct", "Llama-3.3-70B-Instruct", "GLM-4.7-Flash",
              "GLM-5.2-FP8", "claude-sonnet-5", "claude-haiku-4-5-20251001", "gemma-4-31B"]
-    SHORT = {"Qwen3-Coder-30B-A3B-Instruct": "Qwen3-Coder-30B", "Llama-3.3-70B-Instruct": "Llama-3.3-70B",
-             "claude-haiku-4-5-20251001": "claude-haiku-4-5"}
     body, tot = "", [0, 0, 0]
     for k in ORDER:
         v = per.get(k, [0, 0, 0])
@@ -253,7 +345,7 @@ No read-back & %d & No read-back issued before reporting done. \\
             tot[i] += v[i]
     write("tab7-rescue-mechanism-body.tex", r"""\begin{tabular}{@{}l c c c@{}}
 \hline
-\textbf{Model} & \textbf{Rescued (/8)} & \textbf{By re-invoke} & \textbf{By wait} \\
+\textbf{Model} & \textbf{Rescued (/8)} & \textbf{By re-invoke} & \textbf{By re-check} \\
 \hline
 """ + body + r"""\hline
 \textbf{total} & \textbf{%d} & \textbf{%d} & \textbf{%d} \\
@@ -261,23 +353,22 @@ No read-back & %d & No read-back issued before reporting done. \\
 \end{tabular}
 """ % tuple(tot))
 
-    # ---------------- tab8 + tab9: cost and gate outcomes ----------------
+    # ---------------- runtime-activity index and gate outcomes ----------------
     mh, mf = rq3.rq3_metrics(G), rq3.rq3_metrics(GF)
     cost = {}
-    for tag, m in (("h", mh), ("f", mf)):
-        for l_, v in m["per_leg"].items():
+    for tag, mm in (("h", mh), ("f", mf)):
+        for l_, v in mm["per_leg"].items():
             cost.setdefault(l_.split(":")[-1].split("/")[-1], {})[tag] = v["cost_per_verified_success"]
     body = ""
     for k in sorted(cost, key=lambda x: (cost[x].get("h", 0), cost[x].get("f", 0))):
         body += "%s & %.2f & %.2f \\\\\n" % (SHORT.get(k, k), cost[k]["h"], cost[k]["f"])
-    write("tab8-cost-body.tex", r"""\begin{tabular}{@{}l c c@{}}
+    write("tab8-cost-body.tex", r"""\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c@{}}
 \hline
-\textbf{Model} & \textbf{Healthy cost/vs} & \textbf{Fault cost/vs} \\
+& \multicolumn{2}{c}{\textbf{Runtime-activity index per verified completion}} \\
+\textbf{Model} & \textbf{Healthy} & \textbf{Injected delay} \\
 \hline
 """ + body + r"""\hline
-\multicolumn{3}{@{}p{7.6cm}@{}}{\scriptsize cost/vs $=$ unweighted sum of verifier probes $+$ agent invocations $+$ gate retries, per verified success.} \\
-\hline
-\end{tabular}
+\end{tabular*}
 """)
     oh, of_ = mh["overall"], mf["overall"]
     rh = oh["final_fulfilled"] - oh["first_attempt_fulfilled"]
@@ -287,10 +378,10 @@ No read-back & %d & No read-back issued before reporting done. \\
 \textbf{Gate outcome} & \textbf{Healthy (%d)} & \textbf{Fault (%d)} \\
 \hline
 verified completions & %d & %d \\
-false completions & %d & %d \\
+later-contradicted completions & %d & %d \\
 unverified terminations (explicit) & %d & %d \\
 trials recovered after a failed first attempt & %d (%d\%%) & %d (%d\%%) \\
-cost per verified success (mean) & %.2f & %.2f \\
+runtime-activity index per verified completion (mean) & %.2f & %.2f \\
 \hline
 \end{tabular}
 """ % (oh["n_trials"], of_["n_trials"], oh["final_fulfilled"], of_["final_fulfilled"],
@@ -298,48 +389,65 @@ cost per verified success (mean) & %.2f & %.2f \\
        rh, pct(rh, oh["n_trials"]), rf, pct(rf, of_["n_trials"]),
        oh["cost_per_verified_success"], of_["cost_per_verified_success"]))
 
-    # ---------------- tab10: deadline sensitivity ----------------
+    # ---------------- deadline sensitivity ----------------
     conv = [c for c in (convergence_time(r) for r in H) if c is not None]
-    late = [sum(1 for c in conv if c > t) for t in (10, 20, 25, 30, 35, 40)]
+    fconv = [convergence_time(r) for r in F]
+    Ts = (10, 20, 25, 30, 35, 40)
+    late = [sum(1 for c in conv if c > t) for t in Ts]
+    fault_pass = [sum(1 for c in fconv if c is not None and c <= t) for t in Ts]
     write("tab10-deadline-sensitivity-body.tex", r"""\begin{tabular}{@{}l c c c c c c@{}}
 \hline
 \textbf{Deadline $T$ (s)} & \textbf{10} & \textbf{20} & \textbf{25} & \textbf{30 (used)} & \textbf{35} & \textbf{40} \\
 \hline
-healthy late convergers (rejected at $T$) & %d & %d & %d & %d & %d & %d \\[1pt]
-fault passes & 0 & 0 & 0 & 0 & 0 & 0 \\
+healthy late cases at $T$ & %d & %d & %d & %d & %d & %d \\[1pt]
+fault passes & %d & %d & %d & %d & %d & %d \\
 \hline
 \end{tabular}
-""" % tuple(late))
+""" % tuple(late + fault_pass))
 
-    # ---------------- tab11: recorded dollars ----------------
-    # Only the two SDK-billed models appear here; the grant-billed models record no price.
-    gh, gf = usd(G, "haiku"), usd(GF, "haiku")
-    uh, uf = usd(H, "sonnet"), usd(F, "sonnet")
-    g_true_h = sum(1 for r in G if "haiku" in r["model_leg"]
+    # ---------------- recorded dollars, same model with and without the gate ----------------
+    def in_time(recs, model):
+        return sum(1 for r in recs if model in r["model_leg"] and TRUTH(r) == "Fulfilled")
+
+    def reached(recs, model):
+        return sum(1 for r in recs if model in r["model_leg"]
                    and (r.get("a4_result") or {}).get("final_verdict") == "Fulfilled")
-    g_true_f = sum(1 for r in GF if "haiku" in r["model_leg"]
-                   and (r.get("a4_result") or {}).get("final_verdict") == "Fulfilled")
-    u_true_h = sum(1 for r in H if "sonnet" in r["model_leg"] and TRUTH(r) == "Fulfilled")
-    u_said_h = sum(1 for r in H if "sonnet" in r["model_leg"] and A0(r) == "Fulfilled")
-    u_true_f = sum(1 for r in F if "sonnet" in r["model_leg"] and TRUTH(r) == "Fulfilled")
-    n_g = sum(1 for r in G if "haiku" in r["model_leg"])
-    n_u = sum(1 for r in H if "sonnet" in r["model_leg"])
-    write("tab11-cost-dollars-body.tex", r"""\begin{tabular}{@{}l l l@{}}
+
+    def n_of(recs, model):
+        return sum(1 for r in recs if model in r["model_leg"])
+    body = ""
+    for model, name in (("haiku", "claude-haiku-4-5"), ("sonnet", "claude-sonnet-5")):
+        for i, (cond, U, Gt) in enumerate((("healthy", H, G), ("fault", F, GF))):
+            u_usd, g_usd = usd(U, model), usd(Gt, model)
+            body += "%s & %s & %d$/$%d & %.4f & %d$/$%d & %.4f & %+.1f\\%% \\\\\n" % (
+                name if i == 0 else "", cond, in_time(U, model), n_of(U, model), u_usd,
+                reached(Gt, model), n_of(Gt, model), g_usd, 100.0 * (g_usd - u_usd) / u_usd)
+    write("tab11-cost-dollars-body.tex", r"""\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}l l r r r r r@{}}
 \hline
- & \textbf{Gated cheapest model} & \textbf{Unaided frontier model} \\
+ & & \multicolumn{2}{c}{\textbf{Ungated}} & \multicolumn{2}{c}{\textbf{Gated}} & \\
+\textbf{Model} & \textbf{Condition} & in time & USD & reached & USD & \textbf{Spend change} \\
 \hline
-healthy: true completions & %d$/$%d & %d$/$%d (%d$/$%d reported done) \\[1pt]
-healthy: recorded USD, total & \$%.4f & \$%.4f \\[1pt]
-healthy: USD per true completion & \textbf{\$%.4f} & \$%.4f \\[1pt]
-fault: true completions & %d$/$%d & %d$/$%d \\[1pt]
-fault: USD per true completion & \$%.4f (\$%.4f total) & undefined (\$%.4f total) \\
+""" + body + r"""\hline
+\end{tabular}
+""")
+
+    # ---------------- study matrix: included / planned per cell ----------------
+    def ip(recs):
+        return "%d/%d" % (sum(1 for r in recs if setup_valid(r)), len(recs))
+    write("tab-study-matrix-body.tex", r"""\begin{tabular}{@{}l l c c l@{}}
+\hline
+\textbf{Mode} & \textbf{Task} & \textbf{Healthy I/P} & \textbf{Fault I/P} & \textbf{Primary use} \\
+\hline
+ungated & placement & %s & %s & RQ1; RQ2 \\
+ungated & deletion & %s & --- & RQ1; organic violations \\
+gated & placement & %s & %s & RQ3 \\
+gated & deletion & %s & --- & RQ3 \\
 \hline
 \end{tabular}
-""" % (g_true_h, n_g, u_true_h, n_u, u_said_h, n_u, gh, uh, gh / g_true_h, uh / u_true_h,
-       g_true_f, n_g, u_true_f, n_u, gf / g_true_f, gf, uf))
+""" % (ip(H), ip(F), ip(D), ip(G), ip(GF), ip(GD)))
 
-    print("\nDone. Regenerated bodies are in outputs/ — compare against the "
-          "corresponding tables in the paper.")
+    print("\nDone. Regenerated table bodies are in outputs/.")
 
 
 if __name__ == "__main__":

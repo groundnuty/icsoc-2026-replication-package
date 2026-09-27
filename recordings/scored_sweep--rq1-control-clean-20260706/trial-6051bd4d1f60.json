@@ -16,7 +16,7 @@
     "max_tokens": 4096
   },
   "source_provider": "cloud-pl",
-  "agent_mcp_host": "https://cloud-pl.site-host.invalid",
+  "agent_mcp_host": "https://cloud-pl.data.spice-platform.eu",
   "fault": {
     "condition": "none"
   },
@@ -59,28 +59,28 @@
           "de"
         ],
         "expected_paths": [
-          "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin"
+          "/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin"
         ]
       }
     }
   },
   "agent": {
-    "prompt_verbatim": "Replicate the file at /sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin (space 'sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed.",
+    "prompt_verbatim": "Replicate the file at /icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin (space 'icsoc_sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed.",
     "tool_calls": [
       {
         "name": "schedule_file_replication",
         "args": {
-          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin",
+          "file_id_or_path": "/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin",
           "target_provider_id": "de"
         },
-        "result": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"spaceNotSupportedBy\",\n    \"details\": {\n      \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\",\n      \"providerId\": \"de\"\n    },\n    \"description\": \"Specified space: \\\"5173b5c773365e9005d4d44169dc8461chc659\\\" is not supported by provider \\\"de\\\".\",\n    \"ctx\": {\n      \"timestamp\": 1783371679561,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.site-host.invalid\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 155\n    }\n  }\n}",
+        "result": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"spaceNotSupportedBy\",\n    \"details\": {\n      \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\",\n      \"providerId\": \"de\"\n    },\n    \"description\": \"Specified space: \\\"5173b5c773365e9005d4d44169dc8461chc659\\\" is not supported by provider \\\"de\\\".\",\n    \"ctx\": {\n      \"timestamp\": 1783371679561,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.data.spice-platform.eu\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 155\n    }\n  }\n}",
         "ts_rel_s": 6.087,
         "ok": false
       },
       {
         "name": "get_file_distribution",
         "args": {
-          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin"
+          "file_id_or_path": "/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin"
         },
         "result": "{\"type\": \"REG\", \"distributionPerProvider\": {\"ec4761ab47ecda487c46edd328179824chc3bd\": {\"virtualSize\": 4096, \"success\": true, \"locationsPerStorageBackend\": {\"e07175e49cb4be17f5dd6bfe654c9dafch856e\": {\"success\": true, \"location\": \"/5173b5c773365e9005d4d44169dc8461chc659/harness/inc2b/trial-6051bd4d1f60.bin\"}}, \"distributionPerStorageBackend\": {\"e07175e49cb4be17f5dd6bfe654c9dafch856e\": {\"success\": true, \"physicalSize\": 4096, \"blocks\": [[0, 4096]]}}, \"providerName\": \"cloud-pl\"}, \"7cfe30bef82a2c904c15624f752c58ddchd932\": {\"virtualSize\": 4096, \"success\": true, \"locationsPerStorageBackend\": {\"485f53f0af06524d20b317afb99ca9bechb4d4\": {\"success\": true, \"location\": null}}, \"distributionPerStorageBackend\": {\"485f53f0af06524d20b317afb99ca9bechb4d4\": {\"success\": true, \"physicalSize\": 0, \"blocks\": []}}, \"providerName\": \"de\"}}}",
         "ts_rel_s": 8.5,
@@ -94,7 +94,7 @@
       },
       {
         "role": "user",
-        "content": "Replicate the file at /sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin (space 'sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed."
+        "content": "Replicate the file at /icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin (space 'icsoc_sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed."
       },
       {
         "role": "assistant",
@@ -105,7 +105,7 @@
             "type": "function",
             "function": {
               "name": "schedule_file_replication",
-              "arguments": "{\"file_id_or_path\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin\", \"target_provider_id\": \"de\"}"
+              "arguments": "{\"file_id_or_path\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin\", \"target_provider_id\": \"de\"}"
             }
           }
         ]
@@ -113,7 +113,7 @@
       {
         "role": "tool",
         "tool_call_id": "chatcmpl-tool-b22d8fe86c00720f",
-        "content": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"spaceNotSupportedBy\",\n    \"details\": {\n      \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\",\n      \"providerId\": \"de\"\n    },\n    \"description\": \"Specified space: \\\"5173b5c773365e9005d4d44169dc8461chc659\\\" is not supported by provider \\\"de\\\".\",\n    \"ctx\": {\n      \"timestamp\": 1783371679561,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.site-host.invalid\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 155\n    }\n  }\n}"
+        "content": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"spaceNotSupportedBy\",\n    \"details\": {\n      \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\",\n      \"providerId\": \"de\"\n    },\n    \"description\": \"Specified space: \\\"5173b5c773365e9005d4d44169dc8461chc659\\\" is not supported by provider \\\"de\\\".\",\n    \"ctx\": {\n      \"timestamp\": 1783371679561,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.data.spice-platform.eu\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 155\n    }\n  }\n}"
       },
       {
         "role": "assistant",
@@ -124,7 +124,7 @@
             "type": "function",
             "function": {
               "name": "get_file_distribution",
-              "arguments": "{\"file_id_or_path\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin\"}"
+              "arguments": "{\"file_id_or_path\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-6051bd4d1f60.bin\"}"
             }
           }
         ]

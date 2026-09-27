@@ -1,6 +1,7 @@
-\begin{tabular}{@{}l c c@{}}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c@{}}
 \hline
-\textbf{Model} & \textbf{Healthy cost/vs} & \textbf{Fault cost/vs} \\
+& \multicolumn{2}{c}{\textbf{Runtime-activity index per verified completion}} \\
+\textbf{Model} & \textbf{Healthy} & \textbf{Injected delay} \\
 \hline
 gemma-4-31B & 9.12 & 28.00 \\
 claude-haiku-4-5 & 11.88 & 24.00 \\
@@ -10,6 +11,4 @@ claude-sonnet-5 & 20.50 & 20.12 \\
 GLM-4.7-Flash & 20.50 & 36.62 \\
 Qwen3-Coder-30B & 28.38 & 41.50 \\
 \hline
-\multicolumn{3}{@{}p{7.6cm}@{}}{\scriptsize cost/vs $=$ unweighted sum of verifier probes $+$ agent invocations $+$ gate retries, per verified success.} \\
-\hline
-\end{tabular}
+\end{tabular*}

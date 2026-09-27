@@ -1,77 +1,176 @@
 # Replication package
 
-This package contains the per-trial recordings behind the paper, the scoring code that
-turns them into results, and a single command that regenerates every computed table in
-the paper from those recordings. The study measures how different verification policies
-judge whether an autonomous agent actually fulfilled a data-management guarantee, so the
-recordings carry both what each agent did and claimed, and what an independent verifier
-observed at the same time.
+This repository holds the per-trial recordings behind the paper, the code that scores
+them, the harness that produced them, and one command that regenerates every computed
+table from the recordings.
 
-## Package map
+The study measures how verification policies judge whether an autonomous agent actually
+fulfilled a data-management guarantee. Each trial recording stores:
+- the requested model id and its settings;
+- the prompts;
+- the agent's messages and its tool calls with their results;
+- the timeline of what an independent verifier observed.
 
-| Path | What it is |
+There are three ways to use it:
+
+| Path | What it shows | Needs | Time |
+|---|---|---|---|
+| **B. Data only** | every number, regenerated from the recordings | Python ≥ 3.10, standard library only | seconds |
+| **Offline check** | the harness test suite, including checks that the shipped configuration and drivers reproduce the recorded arms, contracts and prompts | Python 3.14 and `requirements-harness.txt`; no network, no credentials | seconds after install |
+| **A. New run** | a new run of the experiments on your own storage deployment and models | an Onedata deployment, model endpoints, and the harness | hours; see below |
+
+## Repository map
+
+| Path | Contents |
 |---|---|
-| `regenerate.py` | regenerates every computed table body from the recordings |
-| `Makefile` | `make tables` runs the above |
-| `recordings/` | one JSON file per trial, grouped by population |
-| `RECORDINGS.md` | data dictionary for those files |
-| `scoring/` | the verification policies and aggregation code |
-| `outputs/` | regenerated table bodies (written by `regenerate.py`) |
-| `prompts/` | every prompt used, verbatim |
-| `config/` | model, judge, and derivation settings |
+| `recordings/` | one JSON file per trial, grouped by population; see `RECORDINGS.md` |
+| `SHA256SUMS`, `checksums.py` | checksums of every file in `recordings/` |
+| `regenerate.py`, `a6_table.py`, `scoring/` | the scoring code (standard library only) |
+| `outputs/` | regenerated tables and numbers |
+| `harness/`, `scored_sweep_driver.py`, `a4_sweep_driver.py` | the harness and its run drivers |
+| `config/` | deployment settings, model arms, and the model and judge settings sheets |
+| `prompts/` | every prompt, verbatim |
+| `ENVIRONMENT.md` | the storage deployment, trial parameters and host used |
 | `VERIFICATION.md` | transcript of a clean-checkout run |
-| `ANONYMIZATION.md` | what was scrubbed and the audit used |
+| `audit.sh` | release checks (credentials, personal data, hosts, binaries) |
 
-## Environment
+## B. Data only
 
-Python 3.10 or newer. **No third-party packages are required** — the scoring and
-regeneration code is standard library only, so there is no lockfile to pin and no
-install step. Verified on Python 3.14.
+Python 3.10 or newer, standard library only. Any machine.
 
 ```bash
-python3 --version     # 3.10+
+make verify    # every file in recordings/ against SHA256SUMS
+make tables    # regenerate every output in outputs/
 ```
 
-## Quick start
+`make tables` first checks that `recordings/` holds exactly the expected files per
+population and stops if any file is missing or extra. It reads only `recordings/`, makes
+no network calls and invokes no model, so repeated runs are byte-identical.
+
+| Table (paper) | Output file |
+|---|---|
+| Study cells (included/planned) | `outputs/tab-study-matrix-body.tex` |
+| Read-back classes of false completion reports | `outputs/tab2-readback-classes-body.tex` |
+| Placement-policy error incidence | `outputs/tab3-placement-misjudgment-body.tex` |
+| Deletion false passes | `outputs/tab5-deletion-misjudgment-body.tex` |
+| Attribution accounting | `outputs/tab6-attribution-body.tex` |
+| First-attempt failures recovered, by mechanism | `outputs/tab7-rescue-mechanism-body.tex` |
+| Runtime-activity index per verified completion | `outputs/tab8-cost-body.tex` |
+| Gate outcomes | `outputs/tab9-gate-outcomes-body.tex` |
+| Deadline sensitivity | `outputs/tab10-deadline-sensitivity-body.tex` |
+| Recorded model charges, with and without the gate | `outputs/tab11-cost-dollars-body.tex` |
+| Verifier overhead by open contracts and poll interval | `outputs/a6-overhead-table.md` (per run: `outputs/a6-cellruns.json`) |
+
+Every number stated in the paper's text is in `outputs/in-text-numbers.txt`, one line per
+number, with its section, population and level (trial, cycle, first attempt or final).
+The contract-instance table is descriptive and is not computed.
+
+## Offline check
 
 ```bash
-make tables           # or: python3 regenerate.py
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-harness.txt
+make test PYTHON=.venv/bin/python
 ```
 
-Runtime is a few seconds. It reads only `recordings/` and writes `outputs/`. It makes no
-network calls and invokes no model, so repeated runs are bit-identical.
+The suite runs with no network access and no credentials. Besides unit tests of the
+harness, it checks two things against the recordings:
+- **Arms:** the model arms built from `config/arms.json` have the recorded leg name,
+  model settings and adapter class for every one of the 448 recorded trials.
+- **Switches:** the driver switches rebuild the recorded contract and prompt, byte for
+  byte, for all 168 deletion, informed and paired trials.
 
-## Which output corresponds to which table
+## A. New run on your own deployment
 
-`regenerate.py` writes one file per computed table. Compare each against the
-corresponding table in the paper.
+Running the experiments again is a new experiment, not a reproduction of the recorded one: models are sampled,
+and a shared storage deployment has its own timing.
 
-| Paper table | Regenerated file | Populations read |
-|---|---|---|
-| Read-back classes | `outputs/tab2-readback-classes-body.tex` | placement, healthy |
-| Placement misjudgment by policy | `outputs/tab3-placement-misjudgment-body.tex` | placement healthy + injected-delay, judge verdicts |
-| Deletion misjudgment by policy | `outputs/tab5-deletion-misjudgment-body.tex` | deletion |
-| Attribution accuracy | `outputs/tab6-attribution-body.tex` | placement, injected delay |
-| Rescue mechanism by model | `outputs/tab7-rescue-mechanism-body.tex` | gated placement, healthy |
-| Effort per verified success | `outputs/tab8-cost-body.tex` | gated placement, both conditions |
-| Gate outcomes | `outputs/tab9-gate-outcomes-body.tex` | gated placement, both conditions |
-| Deadline sensitivity | `outputs/tab10-deadline-sensitivity-body.tex` | placement, healthy |
-| Recorded dollars | `outputs/tab11-cost-dollars-body.tex` | gated + ungated, the two SDK-served models |
+**What the deployment must provide**
+- **Storage:** an Onedata 25 deployment (versions in `ENVIRONMENT.md`) with a Onezone and
+  two Oneprovider sites, a source and a target, each with POSIX storage and reachable over
+  HTTPS. The harness creates a fresh space for each run, supports it on both sites, writes
+  its own trial files, and removes the space at the end.
+- **Onezone admin credential:** needed to mint short-lived access tokens and to create and
+  remove spaces. Its password is read from the environment variable named by
+  `onezone_admin_password_env` (default `ONEZONE_ADMIN_PASSWORD`).
+- **Agent tools:** the onedata-mcp tool server at the commit given in `ENVIRONMENT.md`,
+  installed locally. Point `onedata_mcp_bin` at its executable.
+- **Injected delay (faulted runs only):**
+  - SSH access to a host with `kubectl` access to the target site's cluster;
+  - permission to attach a debug container with `NET_ADMIN` to the target provider pod;
+  - the pod's coordinates, set in the `fault` settings.
 
-The task-description table is prose, not computed, so nothing regenerates it.
+**Deployment settings** live in `config/federation.json`. Any key can be overridden by an
+environment variable `HARNESS_<KEY>`, with dots written as underscores, e.g.
+`HARNESS_SOURCE_HOST`.
 
-## What this package does and does not reproduce
+| Key | Meaning |
+|---|---|
+| `onezone_url` | Onezone base URL |
+| `onezone_admin_user`, `onezone_admin_password_env` | admin user, and the variable that holds its password |
+| `source.*`, `target.*` | per site: `label`, `provider_id`, `host` (Oneprovider URL), `storage_id` |
+| `onedata_mcp_bin` | path to the onedata-mcp executable |
+| `recordings_dir` | where new recordings are written (default `runs/`) |
+| `fault.*` | `ssh_host`, `kubeconfig` (path on that host), `namespace`, `pod`, `container`, `iface` |
 
-**Re-scoring is deterministic and exact.** Every number above is recomputed from the
-bundled recordings by the bundled code. Given the same recordings you will get the same
-table bodies, byte for byte. This is the claim the package supports.
+**Model arms** live in `config/arms.json`, one entry per arm:
+- `name`;
+- `kind`: `openai-compatible`, or `anthropic-sdk` for the Claude Agent SDK;
+- `model_id`;
+- `base_url`;
+- `key_env`: the name of the variable holding the API key;
+- optionally `api_model_id`: the identifier sent to the endpoint when it differs from
+  `model_id` (for example an endpoint-side alias); `model_id` stays the recorded name.
 
-**Producing new recordings is neither deterministic nor self-contained.** Producing new
-recordings would require a live multi-site storage deployment, credentials for it, and
-paid API access to the models — none of which ship here, and model sampling is
-nondeterministic in any case. The harness that produced these recordings is part of the
-project's source repository rather than this package. Treat the recordings as the
-experimental record and this package as the analysis that runs on them.
+No key values are stored anywhere. `anthropic-sdk` arms authenticate through a logged-in
+Claude CLI, with the API-key variables unset. Hosted models can be renamed or withdrawn by
+their providers; set the model ids you can reach here.
+
+**Commands.** Both drivers read `RUN_ID`, `SWEEP_K` (repetitions, default 8), `SWEEP_LEGS`
+(comma-separated model ids, default all arms) and `SWEEP_FAULT` (`none` or `netem_lag`).
+
+| Experiment | Command |
+|---|---|
+| Placement, no fault | `RUN_ID=placement SWEEP_FAULT=none .venv/bin/python scored_sweep_driver.py` |
+| Placement, injected delay | `RUN_ID=placement-delay SWEEP_FAULT=netem_lag SWEEP_LEGS=<up to 3 ids> .venv/bin/python scored_sweep_driver.py` |
+| Gated placement (either condition) | the same variables with `a4_sweep_driver.py` |
+| Deletion | `RUN_ID=deletion SWEEP_SCENARIO=deletion .venv/bin/python scored_sweep_driver.py` |
+| Informed-prompt placement | `RUN_ID=informed SWEEP_INFORMED=1 .venv/bin/python scored_sweep_driver.py` |
+| Verifier overhead | `.venv/bin/python harness/a6_overhead.py fixtures --state s.json`, then `run --state s.json --out-dir <dir>`, then `teardown --state s.json` |
+
+Gated deletion has no driver in this repository. The gate functions it uses are included
+and tested (`make_live_e3_verify_fn` and `build_e3_feedback` in `harness/a4_gate.py`,
+`run_e3_trial` in `harness/runner.py`, `harness/test_e3_a4.py`), and its recordings are
+included for the data-only path.
+
+A faulted invocation is limited to 30 cells, i.e. arms × repetitions; larger runs are split
+across invocations. Transcript-judge verdicts are computed from finished recordings by `apply_a2` in
+`harness/a2_judge.py`.
+
+**Time and cost, from the recorded runs:**
+- **Unfaulted populations:** trials run concurrently, so 56 trials take about 5–10 minutes.
+- **Faulted populations:** one fault at a time, about 1 minute per trial ungated and about
+  2 minutes per trial gated.
+- **Overhead benchmark:** about 80 minutes.
+- **Spend:** the two Anthropic arms together recorded USD 1.5–2.4 per 56-trial population.
+  Costs for the openai-compatible arms depend on the endpoint.
+- **Host:** the recordings were made from the host described in `ENVIRONMENT.md`.
+
+## Harness version
+
+The shipped harness is version `c1e76c2` of the project repository, with comments edited
+and deployment values moved into `config/`; `make test` exercises it. Each recording's
+`harness_version` field names the version that produced it, as a commit of the project
+repository's history:
+
+| Population | `harness_version` (trials) |
+|---|---|
+| placement, no fault; gated placement, no fault | `8d416a1` (56 + 56) |
+| placement, injected delay | `a566fa5` (44), `f627555` (12) |
+| gated placement, injected delay | `a566fa5` (16), `b07163d` (40) |
+| deletion | `df7db39` (45), `c73e9bb` (11) |
+| informed prompt; paired uninformed | `005c442` (56 + 56) |
+| gated deletion | `5543d4d` (48), `7d06a7c` (8) |
 
 ## Verification policies in `scoring/`
 
@@ -92,6 +191,13 @@ after each attempt and routes a remedy by attribution.
 
 ## Prompts
 
-`prompts/` holds every prompt verbatim: the placement and deletion task text as the
-agents received it, the variant that additionally states the condition, the transcript
-judge's system prompt and user template, and the goal-to-condition derivation prompt.
+`prompts/` holds every prompt verbatim:
+- the placement and deletion task text as the agents received it;
+- the variant that additionally states the condition;
+- the transcript judge's system prompt and user template;
+- the goal-to-condition derivation prompt.
+
+## License and citation
+
+Code is under the MIT License; the recordings (including the two test recordings in
+`harness/testdata/`) and the prompts are under CC BY 4.0 (see `LICENSE`). Citation metadata is in `CITATION.cff`.

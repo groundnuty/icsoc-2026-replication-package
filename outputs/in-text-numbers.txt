@@ -1,0 +1,73 @@
+section | number | value | population | level
+§4 | models / model families | 7 / 5 | ungated placement, no fault (56) | 
+§4 | runs per model per cell | 8 | all six 56-trial cells | 
+§4 | tool allowlist size (placement) | 5 (code: runner.E1_FORM_B_ALLOWED_TOOLS; not stored in recordings) | placement task | 
+§4 | tool rounds per attempt: cap / max used (openai-compatible arms) | 8 (code: harness/panel.py ForgeOpenAILeg max_tool_rounds) / 8 | placement, all four cells | 
+§4 | deadline T_max (s) | 30.0 | all placement and deletion trials | 
+§4 | verifier poll interval (s) | 3.0 | all placement and deletion trials | 
+§4 | injected delay (s) | 35.0 | faulted cells | 
+§4 | gate cycle cap / wall budget (s) | 3 / 120 (code: harness/a4_gate.py; not stored in recordings) | gated cells | 
+§4 | max gate cycles used | 3 | gated cells | 
+§4 | gated deletion eligible / planned | 50/56 | gated deletion (56 planned) | eligible = setup established a converged two-site replica (expected.per_term.setup_invalid false)
+§4 | healthy placement Violated / Fulfilled | 23 / 33 | ungated placement, no fault (56) | reference
+§4 | paired control trials (informed + uninformed) | 56 + 56 | same-day paired runs | 
+§4 | derivation pilot goals (placement / deletion) | 56 / 56 | derivation pilot | 
+§5.1 | self-report accepted violations | 21 | ungated placement, no fault (56) | trial
+§5.1 | fulfilled trials with no completion report | 9 | ungated placement, no fault (56) | trial
+§5.1 | reference NotDetermined (healthy / faulted / deletion) | 0 / 0 / 0 | ungated placement and deletion | 
+§5.1 | false reports that followed a read-back | 20 of 21 | ungated placement, no fault (56) | trial
+§5.1 | false deletion reports that followed a post-delete read | 12 of 12 | ungated deletion (56) | trial; read = a read call (get_* or list_*) after the first delete_file, whatever its result
+§5.1 | false deletion reports that followed a successful post-delete read | 2 of 12 | ungated deletion (56) | trial; successful read = a get_* or list_* call after the first delete_file that returned without error
+§5.1 | call/health accepted violations (healthy; faulted) | 14 of 23; 47 of 56 | ungated placement | trial
+§5.1 | transcript judge accepted violations; did not accept fulfilled | 0 of 23; 20 of 33 | ungated placement, no fault (56) | trial
+§5.1 | unparseable judge outputs (on Fulfilled / Violated) | 8 (4 / 4) | ungated placement, no fault (56) | trial
+§5.1 | report-time read false passes | 1 | ungated placement, no fault (56) | trial
+§5.1 | healthy violations at 30 s: later converged / never converged in horizon | 4 / 19 of 23 | ungated placement, no fault (56) | trial
+§5.1 | faulted trajectories Violated at every T up to 40 s | 56 of 56 | ungated placement, injected delay (56) | trial
+§5.1 | headline claims that flip for T in [25, 44] s | 0 | ungated placement, both conditions | claims as stated in the RQ1 results: self-report and call/health false passes exceed the reference's (0); the judge errs in the opposite direction (false alarms exceed false passes); 0 fault passes. Checked at every integer T in [25, 44]
+§5.1 | pairwise crossing: false alarms, call/health vs report-time read | T=25: 0 vs 0; T=26-34: 1 vs 0; T=35-37: 1 vs 1; T=38-44: 1 vs 2 | ungated placement, no fault (56) | pairs of policies whose false-pass or false-alarm counts change order in [25, 44] s: 1 (FA call/health vs report-time)
+§5.1 | counts that vary within [25, 44] s | self-report fp: T=25: 27; T=26-28: 24; T=29-30: 21; T=31-34: 20; T=35-44: 19; call/health fp: T=25: 22; T=26-28: 18; T=29-30: 14; T=31-34: 13; T=35-37: 12; T=38-44: 11; judge fp: T=25: 2; T=26-44: 0; report-time fp: T=25: 10; T=26-28: 5; T=29-30: 1; T=31-44: 0; self-report fa: T=25: 6; T=26-28: 8; T=29-37: 9; T=38-44: 10; call/health fa: T=25: 0; T=26-44: 1; judge fa: T=25: 13; T=26-28: 16; T=29-30: 20; T=31-34: 21; T=35-37: 22; T=38-44: 23; report-time fa: T=25-34: 0; T=35-37: 1; T=38-44: 2 | ungated placement, no fault (56) | fp = false passes, fa = false alarms, per T range
+§5.1 | deletion Violated / Fulfilled | 16 / 40 | ungated deletion (56) | reference
+§5.1 | deletion violations accepted (self-report / call-health / report-time read) | 12 / 11 / 9 of 16 | ungated deletion (56) | trial
+§5.1 | deletion judge NotDetermined (on Fulfilled / Violated); judge Violated | 44 (35 / 9); 12 | ungated deletion (56) | trial
+§5.1 | deletion judge false alarms on Fulfilled | 40 of 40 | ungated deletion (56) | trial
+§5.2 | delay verified active | 56 | ungated placement, injected delay (56) | trial
+§5.2 | ground-truthable (injected-cause window) | 55 of 56 | ungated placement, injected delay (56) | trial
+§5.2 | shadowed by missing valid operation | 18 | ungated placement, injected delay (56) | trial
+§5.2 | agreement when evidence observable (Wilson 95% lower bound) | 37 of 37 (90.6%) | ungated placement, injected delay (56) | trial
+§5.2 | raw attribution accuracy | 37 of 55 (67%) | ungated placement, injected delay (56) | trial
+§5.2 | blinded adjudication | not regenerated: the adjudication data is not included in this repository | — | 
+§5.3 | admitted / unverified / contradicted (Wilson 95% upper bound) | 109 of 112 / 3 / 0 (3.4%) | gated placement (112) | final
+§5.3 | healthy verified | 56/56 | gated placement, no fault (56) | final
+§5.3 | faulted first attempts that missed the deadline | 56 of 56 | gated placement, injected delay (56) | first attempt
+§5.3 | faulted recovered / unverified | 53 / 3 | gated placement, injected delay (56) | final
+§5.3 | recovered trials whose recorded first-attempt verdict is not Fulfilled | 53 of 53 | gated placement, injected delay (56) | first attempt
+§5.3 | gated deletion verified / contradicted (Wilson 95% upper bound) | 50 of 50 / 0 (7.1%) | gated deletion (56 planned), eligible 50 | final
+§5.3 | final NotDetermined (placement / deletion) | 1 / 0 | gated | final
+§5.3 | first-cycle NotDetermined (healthy / faulted) | 35 (13 / 22) | gated placement | cycle 1
+§5.3 | unverified trials ending NotDetermined | 1 of 3 | gated placement | final
+§5.3 | healthy recovered = re-invoke + re-check + service wait | 29 = 16 + 13 + 0 | gated placement, no fault (56) | trial
+§5.3 | faulted gate cycles (wait / re-check / re-invoke) | 40 / 22 / 16 | gated placement, injected delay (56) | cycle
+§5.3 | re-invoked trials whose first attempt had no valid target operation (healthy) | 16 of 16 (2 of them sent a schedule to the target with a malformed file path, rejected by the service) | gated placement, no fault (56) | first attempt; its calls are the recorded calls before 45 s (the cycle-1 verify window closes at 45 s, so a second attempt cannot start earlier); valid = schedule_file_replication to the target provider for the trial's file, accepted by the service
+§5.3 | re-invoked trials whose first attempt had no valid target operation (faulted) | 16 of 16 (2 of them sent a schedule to the target with a malformed file path, rejected by the service) | gated placement, injected delay (56) | first attempt; its calls are the recorded calls before 45 s (the cycle-1 verify window closes at 45 s, so a second attempt cannot start earlier); valid = schedule_file_replication to the target provider for the trial's file, accepted by the service
+§5.3 | always-wait bound (verified without re-invoke) vs routed | 40/56 vs 56; 39/56 vs 53 | gated placement | final
+§5.3 | recovered without re-engaging the agent (healthy / faulted) | 13 / 39 | gated placement | trial
+§5.3 | spend change with the gate (min–max) | +5.2% to +16.8% | SDK-billed arms, 8-trial cells | 
+§5.3 | under the fault, haiku: gated reached vs ungated in time | 8/8 vs 0/8 | SDK-billed arm, 8-trial cells | final / in time
+§5.3 | under the fault, sonnet: gated reached vs ungated in time | 8/8 vs 0/8 | SDK-billed arm, 8-trial cells | final / in time
+§5.3 | mean verifier probes per trial (ungated healthy) | 31.8 | ungated healthy | trial
+§5.3 | mean verifier probes per trial (ungated faulted) | 31.7 | ungated faulted | trial
+§5.3 | mean verifier probes per trial (gated healthy) | 31.8 | gated healthy | trial
+§5.3 | mean verifier probes per trial (gated faulted) | 56.3 | gated faulted | trial
+§5.3 | CPU core-s per contract-minute at 3 s (N = 1 / 10 / 50 / 100) | 0.216 / 0.214 / 0.208 / 0.206 | verifier overhead benchmark | median of 3 repetitions
+§5.3 | 100 contracts at 3 s: cores used / peak RSS MiB | 0.34 / 54 | verifier overhead benchmark | median of 3 repetitions
+§5.3 | 100 contracts at 3 s: schedule drift p95 (s) | 0.63 | verifier overhead benchmark | median of 3 repetitions
+§5.3 | probe failures, all cells | 0 | verifier overhead benchmark | median of 3 repetitions
+§5.3 | other client's median latency vs baseline (range over cells) | 0.98 to 1.09 | verifier overhead benchmark | median of 3 repetitions
+§5.4 | wrong-target schedules / omitted transfers / violations (uninformed) | 10/56 / 11/56 / 23/56 | same-day paired run (uninformed) | trial
+§5.4 | violations reported complete (uninformed) | 23 of 23 | same-day paired run (uninformed) | trial
+§5.4 | wrong-target schedules / omitted transfers / violations (informed) | 0/56 / 5/56 / 8/56 | same-day paired run (informed) | trial
+§5.4 | violations reported complete (informed) | 6 of 8 | same-day paired run (informed) | trial
+§5.4 | admission-control blocks (all / rule-setting operation) | 88 / 43 | anthropic-sdk arms in ungated placement (both conditions), ungated deletion, gated placement (both conditions); per directory: rq1-control-clean-20260706 12/10, rq2-ss1-gated-20260706 0/0, rq2-ss2-gated-20260706 7/3, rq2-ss3-gated-20260706 0/0, e3-scored-20260707 35/0, a4-control-v3-20260706 16/14, a4-fault-ss1-20260706 0/0, a4-fault-ss2-20260706 18/16, a4-fault-ss3-20260706 0/0 | call
+§5.4 | derivation fully correct, placement (Wilson 95% lower bound) | 56/56 (93.6%) | derivation pilot | goal
+§5.4 | derivation fully correct, deletion (Wilson 95% lower bound) | 56/56 (93.6%) | derivation pilot | goal

@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite the paper below."
+type: software
+title: "Replication package for 'When the Consumer Is an Agent: Execution-Grounded Service-Level Agreements'"
+authors:
+  - family-names: Orzechowski
+    given-names: Michał
+  - family-names: Słota
+    given-names: Renata G.
+  - family-names: Kitowski
+    given-names: Jacek
+license:
+  - MIT
+  - CC-BY-4.0
+preferred-citation:
+  type: conference-paper
+  title: "When the Consumer Is an Agent: Execution-Grounded Service-Level Agreements"
+  authors:
+    - family-names: Orzechowski
+      given-names: Michał
+    - family-names: Słota
+      given-names: Renata G.
+    - family-names: Kitowski
+      given-names: Jacek
+  year: 2026
+  conference:
+    name: "International Conference on Service-Oriented Computing (ICSOC 2026)"
+  collection-title: "Lecture Notes in Computer Science"
+  publisher:
+    name: Springer

@@ -1,11 +1,12 @@
-\begin{tabular}{@{}l l l@{}}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}l l r r r r r@{}}
 \hline
- & \textbf{Gated cheapest model} & \textbf{Unaided frontier model} \\
+ & & \multicolumn{2}{c}{\textbf{Ungated}} & \multicolumn{2}{c}{\textbf{Gated}} & \\
+\textbf{Model} & \textbf{Condition} & in time & USD & reached & USD & \textbf{Spend change} \\
 \hline
-healthy: true completions & 8$/$8 & 5$/$8 (7$/$8 reported done) \\[1pt]
-healthy: recorded USD, total & \$0.2826 & \$1.5733 \\[1pt]
-healthy: USD per true completion & \textbf{\$0.0353} & \$0.3147 \\[1pt]
-fault: true completions & 8$/$8 & 0$/$8 \\[1pt]
-fault: USD per true completion & \$0.0440 (\$0.3518 total) & undefined (\$1.8811 total) \\
+claude-haiku-4-5 & healthy & 8$/$8 & 0.2532 & 8$/$8 & 0.2826 & +11.6\% \\
+ & fault & 0$/$8 & 0.3343 & 8$/$8 & 0.3518 & +5.2\% \\
+claude-sonnet-5 & healthy & 5$/$8 & 1.5733 & 8$/$8 & 1.8380 & +16.8\% \\
+ & fault & 0$/$8 & 1.8811 & 8$/$8 & 2.0627 & +9.7\% \\
 \hline
 \end{tabular}

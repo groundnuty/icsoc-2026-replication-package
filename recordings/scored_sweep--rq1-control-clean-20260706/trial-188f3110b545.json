@@ -16,7 +16,7 @@
     "max_tokens": 4096
   },
   "source_provider": "cloud-pl",
-  "agent_mcp_host": "https://cloud-pl.site-host.invalid",
+  "agent_mcp_host": "https://cloud-pl.data.spice-platform.eu",
   "fault": {
     "condition": "none"
   },
@@ -59,30 +59,30 @@
           "de"
         ],
         "expected_paths": [
-          "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin"
+          "/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin"
         ]
       }
     }
   },
   "agent": {
-    "prompt_verbatim": "Replicate the file at /sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin (space 'sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed.",
+    "prompt_verbatim": "Replicate the file at /icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin (space 'icsoc_sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed.",
     "tool_calls": [
       {
         "name": "list_space_providers",
         "args": {
-          "space_id": "sweep_rq1-control-clean-20260706_92afe44f"
+          "space_id": "icsoc_sweep_rq1-control-clean-20260706_92afe44f"
         },
-        "result": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}",
+        "result": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}",
         "ts_rel_s": 5.241,
         "ok": true
       },
       {
         "name": "schedule_file_replication",
         "args": {
-          "file_id_or_path": "sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin",
+          "file_id_or_path": "icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin",
           "target_provider_id": "ec4761ab47ecda487c46edd328179824chc3bd"
         },
-        "result": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"badValueIdentifier\",\n    \"details\": {\n      \"key\": \"fileId\"\n    },\n    \"description\": \"Bad value: provided \\\"fileId\\\" must be a valid identifier.\",\n    \"ctx\": {\n      \"timestamp\": 1783371627566,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.site-host.invalid\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 175\n    }\n  }\n}",
+        "result": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"badValueIdentifier\",\n    \"details\": {\n      \"key\": \"fileId\"\n    },\n    \"description\": \"Bad value: provided \\\"fileId\\\" must be a valid identifier.\",\n    \"ctx\": {\n      \"timestamp\": 1783371627566,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.data.spice-platform.eu\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 175\n    }\n  }\n}",
         "ts_rel_s": 7.829,
         "ok": false
       }
@@ -94,7 +94,7 @@
       },
       {
         "role": "user",
-        "content": "Replicate the file at /sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin (space 'sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed."
+        "content": "Replicate the file at /icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin (space 'icsoc_sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed."
       },
       {
         "role": "assistant",
@@ -105,7 +105,7 @@
             "type": "function",
             "function": {
               "name": "list_space_providers",
-              "arguments": "{\"space_id\": \"sweep_rq1-control-clean-20260706_92afe44f\"}"
+              "arguments": "{\"space_id\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\"}"
             }
           }
         ]
@@ -113,7 +113,7 @@
       {
         "role": "tool",
         "tool_call_id": "chatcmpl-tool-aaf647ec9144967d",
-        "content": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}"
+        "content": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}"
       },
       {
         "role": "assistant",
@@ -124,7 +124,7 @@
             "type": "function",
             "function": {
               "name": "schedule_file_replication",
-              "arguments": "{\"file_id_or_path\": \"sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin\", \"target_provider_id\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}"
+              "arguments": "{\"file_id_or_path\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-188f3110b545.bin\", \"target_provider_id\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}"
             }
           }
         ]
@@ -132,7 +132,7 @@
       {
         "role": "tool",
         "tool_call_id": "chatcmpl-tool-a9bbded8d3ee4ee6",
-        "content": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"badValueIdentifier\",\n    \"details\": {\n      \"key\": \"fileId\"\n    },\n    \"description\": \"Bad value: provided \\\"fileId\\\" must be a valid identifier.\",\n    \"ctx\": {\n      \"timestamp\": 1783371627566,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.site-host.invalid\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 175\n    }\n  }\n}"
+        "content": "Error calling tool 'schedule_file_replication': Onedata API request failed: POST /transfers (status=400) - {\n  \"error\": {\n    \"id\": \"badValueIdentifier\",\n    \"details\": {\n      \"key\": \"fileId\"\n    },\n    \"description\": \"Bad value: provided \\\"fileId\\\" must be a valid identifier.\",\n    \"ctx\": {\n      \"timestamp\": 1783371627566,\n      \"serviceReleaseVersion\": \"25.0\",\n      \"serviceId\": \"ec4761ab47ecda487c46edd328179824chc3bd\",\n      \"serviceDomain\": \"cloud-pl.data.spice-platform.eu\",\n      \"serviceBuildVersion\": \"86-gea90df9971\",\n      \"service\": \"opw\",\n      \"onedataErrorsRevision\": \"060309d9\",\n      \"module\": \"middleware_utils\",\n      \"line\": 175\n    }\n  }\n}"
       },
       {
         "role": "assistant",

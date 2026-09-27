@@ -1,0 +1,53 @@
+{
+  "arms": [
+    {
+      "name": "GLM-4.7-Flash",
+      "kind": "openai-compatible",
+      "model_id": "zai-org/GLM-4.7-Flash",
+      "base_url": "https://llmlab.plgrid.pl/api/v1",
+      "key_env": "PLGRID_FORGE_API_KEY"
+    },
+    {
+      "name": "Qwen3-Coder-30B",
+      "kind": "openai-compatible",
+      "model_id": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+      "base_url": "https://llmlab.plgrid.pl/api/v1",
+      "key_env": "PLGRID_FORGE_API_KEY"
+    },
+    {
+      "name": "gemma-4-31B",
+      "kind": "openai-compatible",
+      "model_id": "google/gemma-4-31B",
+      "base_url": "https://llmlab.plgrid.pl/api/v1",
+      "key_env": "PLGRID_FORGE_API_KEY"
+    },
+    {
+      "name": "GLM-5.2-FP8",
+      "kind": "openai-compatible",
+      "model_id": "zai-org/GLM-5.2-FP8",
+      "base_url": "https://llmlab.plgrid.pl/api/v1",
+      "key_env": "PLGRID_FORGE_API_KEY"
+    },
+    {
+      "name": "Llama-3.3-70B",
+      "kind": "openai-compatible",
+      "model_id": "meta-llama/Llama-3.3-70B-Instruct",
+      "base_url": "https://llmlab.plgrid.pl/api/v1",
+      "key_env": "PLGRID_FORGE_API_KEY"
+    },
+    {
+      "name": "claude-haiku-4-5",
+      "kind": "anthropic-sdk",
+      "model_id": "claude-haiku-4-5-20251001",
+      "base_url": null,
+      "key_env": null
+    },
+    {
+      "name": "claude-sonnet-5",
+      "kind": "anthropic-sdk",
+      "model_id": "claude-sonnet-5",
+      "base_url": null,
+      "key_env": null
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "onezone_url": "https://data.spice-platform.eu",
+  "onezone_admin_user": "admin",
+  "onezone_admin_password_env": "ONEZONE_ADMIN_PASSWORD",
+  "source": {
+    "label": "cloud-pl",
+    "provider_id": "ec4761ab47ecda487c46edd328179824chc3bd",
+    "host": "https://cloud-pl.data.spice-platform.eu",
+    "storage_id": "e07175e49cb4be17f5dd6bfe654c9dafch856e"
+  },
+  "target": {
+    "label": "de",
+    "provider_id": "7cfe30bef82a2c904c15624f752c58ddchd932",
+    "host": "https://149-156-182-166.sslip.io",
+    "storage_id": "485f53f0af06524d20b317afb99ca9bechb4d4"
+  },
+  "onedata_mcp_bin": "",
+  "recordings_dir": "runs",
+  "fault": {
+    "ssh_host": "",
+    "kubeconfig": "",
+    "namespace": "oneprovider-de",
+    "pod": "oneprovider-0",
+    "container": "oneprovider",
+    "iface": "eth0"
+  },
+  "ssh_mint": {
+    "ssh_host": "",
+    "known_hosts": "",
+    "onezone_values_path": ""
+  }
+}

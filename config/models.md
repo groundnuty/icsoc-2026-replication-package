@@ -1,21 +1,29 @@
-# Model configuration
+# Model arms
 
-Seven agent models, eight replicates per cell. Sampling is each provider's default;
-no temperature or top-p override is set anywhere in the harness.
+Seven agent models, eight repetitions per cell. The arms are defined in `config/arms.json`;
+the default file reproduces the seven arms used in the recordings (`make test` checks this).
 
-| Model id (as recorded) | Serving | Billing recorded in trials |
-|---|---|---|
-| `claude-sonnet-5` | vendor SDK | per-trial USD recorded |
-| `claude-haiku-4-5-20251001` | vendor SDK | per-trial USD recorded |
-| `zai-org/GLM-5.2-FP8` | shared inference endpoint | grant-billed; no per-trial price recorded |
-| `zai-org/GLM-4.7-Flash` | shared inference endpoint | grant-billed; no per-trial price recorded |
-| `Qwen/Qwen3-Coder-30B-A3B-Instruct` | shared inference endpoint | grant-billed; no per-trial price recorded |
-| `meta-llama/Llama-3.3-70B-Instruct` | shared inference endpoint | grant-billed; no per-trial price recorded |
-| `google/gemma-4-31B` | shared inference endpoint | grant-billed; no per-trial price recorded |
+| Arm | Model id (as recorded) | Adapter kind | Settings (recorded in `model_config`) |
+|---|---|---|---|
+| GLM-4.7-Flash | `zai-org/GLM-4.7-Flash` | openai-compatible | temperature 1.0, max_tokens 4096 |
+| Qwen3-Coder-30B | `Qwen/Qwen3-Coder-30B-A3B-Instruct` | openai-compatible | temperature 1.0, max_tokens 4096 |
+| gemma-4-31B | `google/gemma-4-31B` | openai-compatible | temperature 1.0, max_tokens 4096 |
+| GLM-5.2-FP8 | `zai-org/GLM-5.2-FP8` | openai-compatible | temperature 1.0, max_tokens 4096 |
+| Llama-3.3-70B | `meta-llama/Llama-3.3-70B-Instruct` | openai-compatible | temperature 1.0, max_tokens 4096 |
+| claude-haiku-4-5 | `claude-haiku-4-5-20251001` | anthropic-sdk | not settable through the SDK |
+| claude-sonnet-5 | `claude-sonnet-5` | anthropic-sdk | not settable through the SDK |
 
-Only the two SDK-served models carry recorded dollars, so only those appear in the
-dollar table; the effort table (probes + invocations + retries) covers all seven.
+**Per attempt:**
+- An openai-compatible arm may use up to 8 tool-calling rounds.
+- An anthropic-sdk arm may use up to 8 turns.
 
-Tool surface: the agent reaches the storage service through a fixed set of read and
-write operations (placement, deletion, distribution read, transfer read, transfer list).
-Per-trial tool-call budget and wall-clock deadline are recorded in each trial file.
+**Recorded dollars:**
+- Anthropic-SDK arms record USD per trial.
+- The openai-compatible arms were served by a grant-billed endpoint and record tokens but
+  no price.
+- So only the two SDK arms appear in the dollar table; the effort table (probes,
+  invocations, retries) covers all seven.
+
+**Tool surface:** the agent reaches the storage service through a fixed set of operations:
+placement, deletion, distribution read, transfer read and transfer list. The deadline is part
+of each trial's recorded contract.

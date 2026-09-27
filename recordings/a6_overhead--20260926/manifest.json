@@ -1,0 +1,526 @@
+{
+ "order": [
+  "P10/1#1",
+  "B0/3#3",
+  "P100/5#1",
+  "D100/3#1",
+  "P100/5#3",
+  "P10/5#3",
+  "P100/1#3",
+  "P50/1#3",
+  "D10/3#1",
+  "D1/3#3",
+  "D50/3#1",
+  "B0/3#1",
+  "P50/1#1",
+  "P50/5#1",
+  "D100/3#3",
+  "P50/3#1",
+  "P100/3#1",
+  "P10/3#2",
+  "P1/1#1",
+  "D50/3#2",
+  "D10/3#3",
+  "D1/3#1",
+  "D50/3#3",
+  "P10/1#2",
+  "P10/5#2",
+  "P100/5#2",
+  "P50/5#2",
+  "P100/1#1",
+  "P1/5#1",
+  "P1/3#3",
+  "P50/3#2",
+  "P100/1#2",
+  "P10/3#1",
+  "P50/1#2",
+  "P1/3#1",
+  "P50/5#3",
+  "P1/5#3",
+  "D100/3#2",
+  "P10/5#1",
+  "P100/3#2",
+  "P50/3#3",
+  "P1/5#2",
+  "B0/3#2",
+  "D10/3#2",
+  "P10/1#3",
+  "P100/3#3",
+  "P10/3#3",
+  "D1/3#2",
+  "P1/1#2",
+  "P1/1#3",
+  "P1/3#2"
+ ],
+ "seed": 20260926,
+ "warmup_s": 10.0,
+ "window_s": 60.0,
+ "pause_s": 15.0,
+ "host": {
+  "cpu_model": "AMD Opteron 62xx class CPU",
+  "cores": 16,
+  "python": "3.14.6"
+ },
+ "runs": [
+  {
+   "tag": "P10/1#1",
+   "dry_run": false,
+   "t0": 1790444002.065691,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-1_r1.cell.json",
+   "canary_file": "P10-1_r1.canary.json"
+  },
+  {
+   "tag": "B0/3#3",
+   "dry_run": false,
+   "t0": 1790444096.7675536,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "B0-3_r3.cell.json",
+   "canary_file": "B0-3_r3.canary.json"
+  },
+  {
+   "tag": "P100/5#1",
+   "dry_run": false,
+   "t0": 1790444189.851817,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-5_r1.cell.json",
+   "canary_file": "P100-5_r1.canary.json"
+  },
+  {
+   "tag": "D100/3#1",
+   "dry_run": false,
+   "t0": 1790444288.3947184,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D100-3_r1.cell.json",
+   "canary_file": "D100-3_r1.canary.json"
+  },
+  {
+   "tag": "P100/5#3",
+   "dry_run": false,
+   "t0": 1790444384.7261152,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-5_r3.cell.json",
+   "canary_file": "P100-5_r3.canary.json"
+  },
+  {
+   "tag": "P10/5#3",
+   "dry_run": false,
+   "t0": 1790444483.2285488,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-5_r3.cell.json",
+   "canary_file": "P10-5_r3.canary.json"
+  },
+  {
+   "tag": "P100/1#3",
+   "dry_run": false,
+   "t0": 1790444581.3252356,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-1_r3.cell.json",
+   "canary_file": "P100-1_r3.canary.json"
+  },
+  {
+   "tag": "P50/1#3",
+   "dry_run": false,
+   "t0": 1790444677.5160298,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P50-1_r3.cell.json",
+   "canary_file": "P50-1_r3.canary.json"
+  },
+  {
+   "tag": "D10/3#1",
+   "dry_run": false,
+   "t0": 1790444773.0589519,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D10-3_r1.cell.json",
+   "canary_file": "D10-3_r1.canary.json"
+  },
+  {
+   "tag": "D1/3#3",
+   "dry_run": false,
+   "t0": 1790444869.3510764,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D1-3_r3.cell.json",
+   "canary_file": "D1-3_r3.canary.json"
+  },
+  {
+   "tag": "D50/3#1",
+   "dry_run": false,
+   "t0": 1790444965.4254434,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D50-3_r1.cell.json",
+   "canary_file": "D50-3_r1.canary.json"
+  },
+  {
+   "tag": "B0/3#1",
+   "dry_run": false,
+   "t0": 1790445061.7281387,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "B0-3_r1.cell.json",
+   "canary_file": "B0-3_r1.canary.json"
+  },
+  {
+   "tag": "P50/1#1",
+   "dry_run": false,
+   "t0": 1790445154.7987344,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.00022888532845044633,
+   "cell_file": "P50-1_r1.cell.json",
+   "canary_file": "P50-1_r1.canary.json"
+  },
+  {
+   "tag": "P50/5#1",
+   "dry_run": false,
+   "t0": 1790445249.7375298,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P50-5_r1.cell.json",
+   "canary_file": "P50-5_r1.canary.json"
+  },
+  {
+   "tag": "D100/3#3",
+   "dry_run": false,
+   "t0": 1790445348.2320359,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D100-3_r3.cell.json",
+   "canary_file": "D100-3_r3.canary.json"
+  },
+  {
+   "tag": "P50/3#1",
+   "dry_run": false,
+   "t0": 1790445444.748978,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P50-3_r1.cell.json",
+   "canary_file": "P50-3_r1.canary.json"
+  },
+  {
+   "tag": "P100/3#1",
+   "dry_run": false,
+   "t0": 1790445541.262548,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-3_r1.cell.json",
+   "canary_file": "P100-3_r1.canary.json"
+  },
+  {
+   "tag": "P10/3#2",
+   "dry_run": false,
+   "t0": 1790445638.7873297,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-3_r2.cell.json",
+   "canary_file": "P10-3_r2.canary.json"
+  },
+  {
+   "tag": "P1/1#1",
+   "dry_run": false,
+   "t0": 1790445735.0797052,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-1_r1.cell.json",
+   "canary_file": "P1-1_r1.canary.json"
+  },
+  {
+   "tag": "D50/3#2",
+   "dry_run": false,
+   "t0": 1790445828.7744272,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D50-3_r2.cell.json",
+   "canary_file": "D50-3_r2.canary.json"
+  },
+  {
+   "tag": "D10/3#3",
+   "dry_run": false,
+   "t0": 1790445925.0837302,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D10-3_r3.cell.json",
+   "canary_file": "D10-3_r3.canary.json"
+  },
+  {
+   "tag": "D1/3#1",
+   "dry_run": false,
+   "t0": 1790446021.1800005,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D1-3_r1.cell.json",
+   "canary_file": "D1-3_r1.canary.json"
+  },
+  {
+   "tag": "D50/3#3",
+   "dry_run": false,
+   "t0": 1790446115.6619794,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D50-3_r3.cell.json",
+   "canary_file": "D50-3_r3.canary.json"
+  },
+  {
+   "tag": "P10/1#2",
+   "dry_run": false,
+   "t0": 1790446211.973355,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-1_r2.cell.json",
+   "canary_file": "P10-1_r2.canary.json"
+  },
+  {
+   "tag": "P10/5#2",
+   "dry_run": false,
+   "t0": 1790446306.473043,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-5_r2.cell.json",
+   "canary_file": "P10-5_r2.canary.json"
+  },
+  {
+   "tag": "P100/5#2",
+   "dry_run": false,
+   "t0": 1790446404.9549623,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-5_r2.cell.json",
+   "canary_file": "P100-5_r2.canary.json"
+  },
+  {
+   "tag": "P50/5#2",
+   "dry_run": false,
+   "t0": 1790446503.4744532,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P50-5_r2.cell.json",
+   "canary_file": "P50-5_r2.canary.json"
+  },
+  {
+   "tag": "P100/1#1",
+   "dry_run": false,
+   "t0": 1790446601.9730504,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-1_r1.cell.json",
+   "canary_file": "P100-1_r1.canary.json"
+  },
+  {
+   "tag": "P1/5#1",
+   "dry_run": false,
+   "t0": 1790446697.1575913,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-5_r1.cell.json",
+   "canary_file": "P1-5_r1.canary.json"
+  },
+  {
+   "tag": "P1/3#3",
+   "dry_run": false,
+   "t0": 1790446793.4594162,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-3_r3.cell.json",
+   "canary_file": "P1-3_r3.canary.json"
+  },
+  {
+   "tag": "P50/3#2",
+   "dry_run": false,
+   "t0": 1790446887.5382743,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P50-3_r2.cell.json",
+   "canary_file": "P50-3_r2.canary.json"
+  },
+  {
+   "tag": "P100/1#2",
+   "dry_run": false,
+   "t0": 1790446984.2593086,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-1_r2.cell.json",
+   "canary_file": "P100-1_r2.canary.json"
+  },
+  {
+   "tag": "P10/3#1",
+   "dry_run": false,
+   "t0": 1790447079.6376398,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-3_r1.cell.json",
+   "canary_file": "P10-3_r1.canary.json"
+  },
+  {
+   "tag": "P50/1#2",
+   "dry_run": false,
+   "t0": 1790447175.727411,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P50-1_r2.cell.json",
+   "canary_file": "P50-1_r2.canary.json"
+  },
+  {
+   "tag": "P1/3#1",
+   "dry_run": false,
+   "t0": 1790447270.4667368,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-3_r1.cell.json",
+   "canary_file": "P1-3_r1.canary.json"
+  },
+  {
+   "tag": "P50/5#3",
+   "dry_run": false,
+   "t0": 1790447366.942744,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P50-5_r3.cell.json",
+   "canary_file": "P50-5_r3.canary.json"
+  },
+  {
+   "tag": "P1/5#3",
+   "dry_run": false,
+   "t0": 1790447465.6683033,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-5_r3.cell.json",
+   "canary_file": "P1-5_r3.canary.json"
+  },
+  {
+   "tag": "D100/3#2",
+   "dry_run": false,
+   "t0": 1790447560.1515338,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D100-3_r2.cell.json",
+   "canary_file": "D100-3_r2.canary.json"
+  },
+  {
+   "tag": "P10/5#1",
+   "dry_run": false,
+   "t0": 1790447656.6773984,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-5_r1.cell.json",
+   "canary_file": "P10-5_r1.canary.json"
+  },
+  {
+   "tag": "P100/3#2",
+   "dry_run": false,
+   "t0": 1790447755.1672196,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0002770083102493075,
+   "cell_file": "P100-3_r2.cell.json",
+   "canary_file": "P100-3_r2.canary.json"
+  },
+  {
+   "tag": "P50/3#3",
+   "dry_run": false,
+   "t0": 1790447851.903689,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0005313496280552603,
+   "cell_file": "P50-3_r3.cell.json",
+   "canary_file": "P50-3_r3.canary.json"
+  },
+  {
+   "tag": "P1/5#2",
+   "dry_run": false,
+   "t0": 1790447966.8526533,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-5_r2.cell.json",
+   "canary_file": "P1-5_r2.canary.json"
+  },
+  {
+   "tag": "B0/3#2",
+   "dry_run": false,
+   "t0": 1790448062.7304347,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "B0-3_r2.cell.json",
+   "canary_file": "B0-3_r2.canary.json"
+  },
+  {
+   "tag": "D10/3#2",
+   "dry_run": false,
+   "t0": 1790448155.8032284,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D10-3_r2.cell.json",
+   "canary_file": "D10-3_r2.canary.json"
+  },
+  {
+   "tag": "P10/1#3",
+   "dry_run": false,
+   "t0": 1790448251.696695,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-1_r3.cell.json",
+   "canary_file": "P10-1_r3.canary.json"
+  },
+  {
+   "tag": "P100/3#3",
+   "dry_run": false,
+   "t0": 1790448346.191856,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P100-3_r3.cell.json",
+   "canary_file": "P100-3_r3.canary.json"
+  },
+  {
+   "tag": "P10/3#3",
+   "dry_run": false,
+   "t0": 1790448442.9338496,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P10-3_r3.cell.json",
+   "canary_file": "P10-3_r3.canary.json"
+  },
+  {
+   "tag": "D1/3#2",
+   "dry_run": false,
+   "t0": 1790448539.2219632,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "D1-3_r2.cell.json",
+   "canary_file": "D1-3_r2.canary.json"
+  },
+  {
+   "tag": "P1/1#2",
+   "dry_run": false,
+   "t0": 1790448633.1092849,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-1_r2.cell.json",
+   "canary_file": "P1-1_r2.canary.json"
+  },
+  {
+   "tag": "P1/1#3",
+   "dry_run": false,
+   "t0": 1790448727.392322,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-1_r3.cell.json",
+   "canary_file": "P1-1_r3.canary.json"
+  },
+  {
+   "tag": "P1/3#2",
+   "dry_run": false,
+   "t0": 1790448820.8701344,
+   "status": "ok",
+   "verifier_wire_error_rate": 0.0,
+   "cell_file": "P1-3_r2.cell.json",
+   "canary_file": "P1-3_r2.canary.json"
+  }
+ ],
+ "completed": true
+}

@@ -16,7 +16,7 @@
     "max_tokens": 4096
   },
   "source_provider": "cloud-pl",
-  "agent_mcp_host": "https://cloud-pl.site-host.invalid",
+  "agent_mcp_host": "https://cloud-pl.data.spice-platform.eu",
   "fault": {
     "condition": "none"
   },
@@ -59,27 +59,27 @@
           "de"
         ],
         "expected_paths": [
-          "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin"
+          "/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin"
         ]
       }
     }
   },
   "agent": {
-    "prompt_verbatim": "Replicate the file at /sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin (space 'sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed.",
+    "prompt_verbatim": "Replicate the file at /icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin (space 'icsoc_sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed.",
     "tool_calls": [
       {
         "name": "list_space_providers",
         "args": {
-          "space_id": "sweep_rq1-control-clean-20260706_92afe44f"
+          "space_id": "icsoc_sweep_rq1-control-clean-20260706_92afe44f"
         },
-        "result": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}",
+        "result": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}",
         "ts_rel_s": 6.141,
         "ok": true
       },
       {
         "name": "get_file_distribution",
         "args": {
-          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin"
+          "file_id_or_path": "/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin"
         },
         "result": "{\"type\": \"REG\", \"distributionPerProvider\": {\"ec4761ab47ecda487c46edd328179824chc3bd\": {\"virtualSize\": 4096, \"success\": true, \"locationsPerStorageBackend\": {\"e07175e49cb4be17f5dd6bfe654c9dafch856e\": {\"success\": true, \"location\": \"/5173b5c773365e9005d4d44169dc8461chc659/harness/inc2b/trial-bc74163abb5f.bin\"}}, \"distributionPerStorageBackend\": {\"e07175e49cb4be17f5dd6bfe654c9dafch856e\": {\"success\": true, \"physicalSize\": 4096, \"blocks\": [[0, 4096]]}}, \"providerName\": \"cloud-pl\"}, \"7cfe30bef82a2c904c15624f752c58ddchd932\": {\"virtualSize\": 4096, \"success\": true, \"locationsPerStorageBackend\": {\"485f53f0af06524d20b317afb99ca9bechb4d4\": {\"success\": true, \"location\": null}}, \"distributionPerStorageBackend\": {\"485f53f0af06524d20b317afb99ca9bechb4d4\": {\"success\": true, \"physicalSize\": 0, \"blocks\": []}}, \"providerName\": \"de\"}}}",
         "ts_rel_s": 7.599,
@@ -88,7 +88,7 @@
       {
         "name": "schedule_file_replication",
         "args": {
-          "file_id_or_path": "/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin",
+          "file_id_or_path": "/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin",
           "target_provider_id": "7cfe30bef82a2c904c15624f752c58ddchd932"
         },
         "result": "{\"transferId\": \"2100807458a994a01551b6a9cb94c374chf734\"}",
@@ -100,7 +100,7 @@
         "args": {
           "transfer_id": "2100807458a994a01551b6a9cb94c374chf734"
         },
-        "result": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}",
+        "result": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}",
         "ts_rel_s": 11.693,
         "ok": true
       },
@@ -109,7 +109,7 @@
         "args": {
           "transfer_id": "2100807458a994a01551b6a9cb94c374chf734"
         },
-        "result": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}",
+        "result": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}",
         "ts_rel_s": 16.046,
         "ok": true
       },
@@ -118,14 +118,14 @@
         "args": {
           "transfer_id": "2100807458a994a01551b6a9cb94c374chf734"
         },
-        "result": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}",
+        "result": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}",
         "ts_rel_s": 17.266,
         "ok": true
       },
       {
         "name": "list_space_transfers",
         "args": {
-          "space_id": "sweep_rq1-control-clean-20260706_92afe44f",
+          "space_id": "icsoc_sweep_rq1-control-clean-20260706_92afe44f",
           "state": "ended"
         },
         "result": "{\"transfers\": [\"1befd2eb246f08318376d2bebaa0848acha13f\", \"87ab01b00d1031ff3f4f8aa37ca0209echbe4d\", \"5232b219605d9aafffa77f2b0143b48dchfb4e\", \"6a6fc14ed1ad234ce36a7a6c5f402444ch7d1a\", \"6fc06b0ef56454af7b8aac15be56721fch3e7c\", \"7f1faf6c8fb49e9d2cea8c4b4d8174e9ch0555\", \"7239a615c06cbc5cd230dd8a9b72f380ch6626\", \"da9289afa2d33eae1ce5153a55c5d45cchc68d\", \"a43cb99b37d3ae95e416d33cef5baad9chabf0\", \"a83c734e09b698b8c8fa59a38219d8f0ch7bce\", \"76892a39eac39f395be2d9f7f6db87fdch9ca8\", \"81f94cb412267023ac9e2a7a47c721b1ch3d0a\", \"e3fc3224e2fc3e807a64309d4d1082c7ch2512\", \"0c20cc3d778eec580910c495eda0e787chadef\", \"6a9a4d7eb5c2ca0e84bffcc5659b9e16ch3207\", \"513ca918f552961f65113954bff3cc7ach212e\", \"81767f0dd7b908accec2e423afa6fab0chfbd1\", \"86b625d50fb3e266cdd7677ad3142244ch43ca\", \"2999ce11e7a9f35a8e92d409cb84710fch61c8\", \"48edb768a9ab519f1c74623ea1953157ch4446\", \"d49034ce517395b49892fb7757ea7422cha071\", \"4682362feb4c57bd3c8015e4810ce96cch5837\", \"bf9352544e7f054b1237e0c4f951d76ech0eed\", \"91a4de81329a57fe3e1be307018a81b3ch4908\", \"1b56cc9289eeedce1892af92eba6a72ech582a\", \"be1f03db29336e5b973bc4496d1175d3ch220c\", \"e2173e954d6127efe4db7fad678b9aa5chcbce\", \"f8af29c1a07140a869653541ced50831chc178\", \"8b3250cee205db8d5051904568b009f4chc62b\", \"b2972c0b50c7708ca7b7792db3ded82dch7155\", \"2e1a5c8e7ebbd196ffa1884fc5303d5dch1831\", \"4ef09660bb848d70ead3ec146fdd136bch9b99\", \"46ccc922880d6cbb447dd07f60e0df43ch412c\", \"073cb445e6bcd525a82da7ec327a8976chdaf3\", \"0aab8bb08b46a12684e7deddbc1dd92achbcf9\", \"45820e923df52e6326a3824cf24ca7a5che8a5\", \"c066a708efc14aa3c11e8fe09f73716fchfcd0\", \"c145d002731dcde6f8d2343e49487bc9ch84ce\", \"a5aaf86b116a77c6c49103a319e9da65ch6e5c\", \"f9775a479cb7bd60b3a2366a17bdcb8dch58ea\"], \"nextPageToken\": null}",
@@ -135,7 +135,7 @@
       {
         "name": "list_space_transfers",
         "args": {
-          "space_id": "sweep_rq1-control-clean-20260706_92afe44f",
+          "space_id": "icsoc_sweep_rq1-control-clean-20260706_92afe44f",
           "state": "ongoing"
         },
         "result": "{\"transfers\": [], \"nextPageToken\": null}",
@@ -150,7 +150,7 @@
       },
       {
         "role": "user",
-        "content": "Replicate the file at /sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin (space 'sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed."
+        "content": "Replicate the file at /icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin (space 'icsoc_sweep_rq1-control-clean-20260706_92afe44f', id 5173b5c773365e9005d4d44169dc8461chc659) so it's durably available from at least two of our sites \u2014 including the 'de' site \u2014 and tell me once that's guaranteed."
       },
       {
         "role": "assistant",
@@ -161,7 +161,7 @@
             "type": "function",
             "function": {
               "name": "list_space_providers",
-              "arguments": "{\"space_id\": \"sweep_rq1-control-clean-20260706_92afe44f\"}"
+              "arguments": "{\"space_id\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\"}"
             }
           }
         ]
@@ -169,7 +169,7 @@
       {
         "role": "tool",
         "tool_call_id": "chatcmpl-tool-8a7b098e7d8e9502",
-        "content": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}"
+        "content": "{\"trashDirId\": \"000000000058C6C7677569642374726173685F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"providers\": [{\"providerName\": \"de\", \"providerId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}, {\"providerName\": \"cloud-pl\", \"providerId\": \"ec4761ab47ecda487c46edd328179824chc3bd\"}], \"name\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\", \"fileId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"dirId\": \"00000000005898B7677569642373706163655F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"archivesDirId\": \"0000000000601CD7677569642361726368697665735F726F6F745F3531373362356337373333363565393030356434643434313639646338343631636863363539233531373362356337373333363565393030356434643434313639646338343631636863363539\"}"
       },
       {
         "role": "assistant",
@@ -180,7 +180,7 @@
             "type": "function",
             "function": {
               "name": "get_file_distribution",
-              "arguments": "{\"file_id_or_path\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\"}"
+              "arguments": "{\"file_id_or_path\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\"}"
             }
           }
         ]
@@ -199,7 +199,7 @@
             "type": "function",
             "function": {
               "name": "schedule_file_replication",
-              "arguments": "{\"file_id_or_path\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"target_provider_id\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}"
+              "arguments": "{\"file_id_or_path\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"target_provider_id\": \"7cfe30bef82a2c904c15624f752c58ddchd932\"}"
             }
           }
         ]
@@ -226,7 +226,7 @@
       {
         "role": "tool",
         "tool_call_id": "chatcmpl-tool-9eed90805179bc63",
-        "content": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}"
+        "content": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}"
       },
       {
         "role": "assistant",
@@ -245,7 +245,7 @@
       {
         "role": "tool",
         "tool_call_id": "chatcmpl-tool-b35670e1ed39817e",
-        "content": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}"
+        "content": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}"
       },
       {
         "role": "assistant",
@@ -264,7 +264,7 @@
       {
         "role": "tool",
         "tool_call_id": "chatcmpl-tool-bf2ed3cd126feb2a",
-        "content": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}"
+        "content": "{\"userId\": \"4c2ae8be89f42b5e74ab7c813128b6d6chf42b\", \"type\": \"replication\", \"transferStatus\": \"scheduled\", \"startTime\": 0, \"spaceId\": \"5173b5c773365e9005d4d44169dc8461chc659\", \"scheduleTime\": 1783371948, \"rerunId\": null, \"replicationStatus\": \"scheduled\", \"replicatingProviderId\": \"7cfe30bef82a2c904c15624f752c58ddchd932\", \"mthHist\": {}, \"minHist\": {}, \"lastUpdate\": 0, \"hrHist\": {}, \"finishTime\": 0, \"filesToProcess\": 0, \"filesReplicated\": 0, \"filesProcessed\": 0, \"filesFailed\": 0, \"filesEvicted\": 0, \"filePath\": \"/icsoc_sweep_rq1-control-clean-20260706_92afe44f/harness/inc2b/trial-bc74163abb5f.bin\", \"fileId\": \"0000000000524C9B67756964236334646133666333343633653138633462636464653432353739333735326566636861313933233531373362356337373333363565393030356434643434313639646338343631636863363539\", \"evictionStatus\": \"skipped\", \"evictingProviderId\": null, \"effectiveJobTransferId\": \"2100807458a994a01551b6a9cb94c374chf734\", \"effectiveJobStatus\": \"scheduled\", \"dyHist\": {}, \"dataSourceType\": \"file\", \"callback\": null, \"bytesReplicated\": 0}"
       },
       {
         "role": "assistant",
@@ -275,7 +275,7 @@
             "type": "function",
             "function": {
               "name": "list_space_transfers",
-              "arguments": "{\"space_id\": \"sweep_rq1-control-clean-20260706_92afe44f\", \"state\": \"ended\"}"
+              "arguments": "{\"space_id\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\", \"state\": \"ended\"}"
             }
           },
           {
@@ -283,7 +283,7 @@
             "type": "function",
             "function": {
               "name": "list_space_transfers",
-              "arguments": "{\"space_id\": \"sweep_rq1-control-clean-20260706_92afe44f\", \"state\": \"ongoing\"}"
+              "arguments": "{\"space_id\": \"icsoc_sweep_rq1-control-clean-20260706_92afe44f\", \"state\": \"ongoing\"}"
             }
           }
         ]

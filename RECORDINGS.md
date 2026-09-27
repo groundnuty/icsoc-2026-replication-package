@@ -12,7 +12,7 @@ scoring code reads nothing else.
 | `sweep_id` | the run this trial belongs to |
 | `scenario_id` | `E1` placement, `E3` deletion |
 | `model_leg` | the agent model, as `<serving>:<model id>` |
-| `trial_k` | replicate index within the cell |
+| `trial_k` | replicate index for the deletion runs; 1 for the placement runs, whose replicates are separate trials distinguished by `trial_id` |
 | `source_provider` | site that initially holds the file |
 | `fault.condition` | the injected condition, or absent on healthy trials |
 | `contract` | the guarantee the agent is held to (see below) |
@@ -67,13 +67,31 @@ alongside, which the scoring treats as diagnostic only.
 | `scored_sweep--e1-uninformed-paired-*` | 56 | same-day paired control for the above |
 | `derivation_pilot_*--E1`, `--E3` | 56 each | goal-to-condition derivation, per item |
 | `a2_fault_deletion_*--fault`, `--deletion` | 56 each | transcript-judge verdicts for those two populations |
+| `a4_sweep--e3-a4-healthy-v2-*`, `…-v2-glm52-*` | 48 + 8 | deletion under the enforcement gate, no injected condition |
+| `a6_overhead--20260926` | 51 runs | verifier overhead benchmark (see below) |
 
-## Two rules that explain denominators
+## Two conditions on every trial
 
-**Setup-verified exclusion.** A trial counts only if its fixture was confirmed in place
-before the episode began; trials failing that precondition are excluded, which is why
-one gated deletion population reports 50 rather than 56.
+**Fixture in place.** A trial counts only if its setup established the state the task assumes before the agent's turn. Each recording stores the outcome in `expected.per_term.<term>.setup_invalid` (with `setup_invalid_reason`). For deletion the setup must confirm a converged two-site replica of the file; in the gated deletion run 6 of the 56 planned trials carry `setup_invalid: true` (reason `no_2replica`) and have no gate result, so 50 are counted. Every other population counts all 56.
 
-**Injected condition.** Where a condition is injected it is a delay of 35 seconds on the
-inter-site transfer path for the target site, which exceeds the 30-second deadline; it
-is applied per cell and recorded in `fault.condition`.
+**Injected condition.** Where a condition is injected, it is a delay of 35 seconds on the
+target site's inter-site transfer traffic, which exceeds the 30-second deadline. It is
+recorded per trial in `fault` (`condition`, `netem_delay_ms`, and when it was cleared, in
+`cleared_at_rel_s`).
+
+## Verifier overhead benchmark (`a6_overhead--20260926`)
+
+One run = one cell (predicate, N open contracts, poll interval δ) × one repetition. The
+verifier process runs N polling loops using the same probe functions as the trials. A
+separate reference client reads one file once per second.
+
+| File | Content |
+|---|---|
+| `<cell>_r<k>.cell.json` | `cell` (predicate, `n`, `delta`, `rep`), `t0`, `warmup_s`, `window_s`, `offsets` (per-loop start offsets), `reads_per_round`, `host` (CPU model, cores, Python), `rusage` (CPU time and load average at window start and end), `maxrss_kb`, `wire` (every request: `t`, `dur`, `status`, `exc`, endpoint class `ep`), `samples` (each loop's recorded samples) |
+| second file with the same `<cell>_r<k>` stem | the reference client's `wire` records |
+| `manifest.json` | run order, seed, timing constants, per-run status |
+| `files.json` | the fixture files the loops polled |
+| `dryrun_*` | the single driver check before the grid; not used in results |
+
+Metrics use each run's observation window `[t0 + warmup_s, t0 + warmup_s + window_s)`.
+Token requests (`ep = token_mint`) are excluded.
