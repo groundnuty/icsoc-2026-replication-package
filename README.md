@@ -1,8 +1,22 @@
-# Replication package
+# Replication package: When the Consumer Is an Agent
+
+Replication package for Michał Orzechowski, Renata G. Słota and Jacek Kitowski, *When the
+Consumer Is an Agent: Execution-Grounded Service-Level Agreements*, ICSOC 2026 (Lecture
+Notes in Computer Science, Springer).
 
 This repository holds the per-trial recordings behind the paper, the code that scores
-them, the harness that produced them, and one command that regenerates every computed
-table from the recordings.
+them, the harness that produced them, and one command that regenerates every table and
+every number stated in the paper's text from the recordings.
+
+## Quick start
+
+```bash
+make check    # verify the recordings, regenerate every output, compare with the committed files
+```
+
+Python 3.10 or newer (standard library only) and a POSIX shell with `make`; a few seconds. The last line reads
+`check: all 13 outputs byte-identical to the committed files`. The same check and the
+harness test suite also run in a container with no network; see [Container](#container).
 
 The study measures how verification policies judge whether an autonomous agent actually
 fulfilled a data-management guarantee. Each trial recording stores:
@@ -15,9 +29,9 @@ There are three ways to use it:
 
 | Path | What it shows | Needs | Time |
 |---|---|---|---|
-| **B. Data only** | every number, regenerated from the recordings | Python ≥ 3.10, standard library only | seconds |
-| **Offline check** | the harness test suite, including checks that the shipped configuration and drivers reproduce the recorded arms, contracts and prompts | Python 3.14 and `requirements-harness.txt`; no network, no credentials | seconds after install |
-| **A. New run** | a new run of the experiments on your own storage deployment and models | an Onedata deployment, model endpoints, and the harness | hours; see below |
+| **Data only** | every table and in-text number, regenerated from the recordings | Python ≥ 3.10, standard library only | seconds |
+| **Offline check** | the harness test suite, including checks that the shipped configuration and drivers reproduce the recorded arms, contracts and prompts | Python 3.12–3.14 and `requirements-harness.txt`, or the container; no network, no credentials | seconds after install |
+| **New run** | a new run of the experiments on your own storage deployment and models | an Onedata deployment, model endpoints, and the harness | hours; see below |
 
 ## Repository map
 
@@ -31,17 +45,24 @@ There are three ways to use it:
 | `config/` | deployment settings, model arms, and the model and judge settings sheets |
 | `prompts/` | every prompt, verbatim |
 | `ENVIRONMENT.md` | the storage deployment, trial parameters and host used |
+| `Dockerfile` | container for the data-only path and the offline check |
 | `VERIFICATION.md` | transcript of a clean-checkout run |
 | `audit.sh` | release checks (credentials, personal data, hosts, binaries) |
 
-## B. Data only
+## Data only
 
-Python 3.10 or newer, standard library only. Any machine.
+Python 3.10 or newer, standard library only; tested with Python 3.10, 3.12, 3.13 and 3.14.
+Any machine.
 
 ```bash
+make check     # the three steps below, then a comparison with the committed outputs
 make verify    # every file in recordings/ against SHA256SUMS
 make tables    # regenerate every output in outputs/
 ```
+
+`make check` leaves `outputs/` as committed; on a mismatch it prints the diff and keeps the
+regenerated files in `outputs.regenerated/`. `make tables` overwrites `outputs/`.
+`make PYTHON=<interpreter> check` selects the interpreter.
 
 `make tables` first checks that `recordings/` holds exactly the expected files per
 population and stops if any file is missing or extra. It reads only `recordings/`, makes
@@ -67,6 +88,8 @@ The contract-instance table is descriptive and is not computed.
 
 ## Offline check
 
+Tested with Python 3.12, 3.13 and 3.14.
+
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements-harness.txt
@@ -80,7 +103,18 @@ harness, it checks two things against the recordings:
 - **Switches:** the driver switches rebuild the recorded contract and prompt, byte for
   byte, for all 168 deletion, informed and paired trials.
 
-## A. New run on your own deployment
+## Container
+
+```bash
+docker build -t consumer-agent-sla-artifact .
+docker run --rm --network none consumer-agent-sla-artifact
+```
+
+The image is `python:3.14-slim`, pinned by digest, with `requirements-harness.txt`
+installed. With no network it runs `make check` and `make test`; the output ends with
+`check: all 13 outputs byte-identical to the committed files` and `OK` after 442 tests.
+
+## New run on your own deployment
 
 Running the experiments again is a new experiment, not a reproduction of the recorded one: models are sampled,
 and a shared storage deployment has its own timing.
