@@ -14,7 +14,7 @@ every number stated in the paper's text from the recordings.
 make check    # verify the recordings, regenerate every output, compare with the committed files
 ```
 
-Standard-library Python 3.10 or newer; a few seconds. The last line reads
+Python 3.10 or newer (standard library only) and a POSIX shell with `make`; a few seconds. The last line reads
 `check: all 13 outputs byte-identical to the committed files`. The same check and the
 harness test suite also run in a container with no network; see [Container](#container).
 
@@ -60,6 +60,8 @@ make verify    # every file in recordings/ against SHA256SUMS
 make tables    # regenerate every output in outputs/
 ```
 
+`make check` leaves `outputs/` as committed; on a mismatch it prints the diff and keeps the
+regenerated files in `outputs.regenerated/`. `make tables` overwrites `outputs/`.
 `make PYTHON=<interpreter> check` selects the interpreter.
 
 `make tables` first checks that `recordings/` holds exactly the expected files per
