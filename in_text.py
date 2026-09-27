@@ -203,14 +203,10 @@ def main():
     emit("§5.3", "final NotDetermined (placement / deletion)",
          "%d / %d" % (sum(1 for r in gp if r["a4_result"]["final_verdict"] == "NotDetermined"),
                       sum(1 for r in gde if r["a4_result"]["final_verdict"] == "NotDetermined")), "gated", "final")
-    def first_nd(recs):
-        return sum(1 for r in recs if (r["a4_result"]["remedy_trail"] or [{}])[0].get("rejected_verdict") == "NotDetermined")
-    emit("§5.3", "first-cycle NotDetermined (healthy / faulted)", "%d (%d / %d)" % (first_nd(G) + first_nd(GF), first_nd(G), first_nd(GF)),
-         "gated placement", "cycle 1")
     emit("§5.3", "unverified trials ending NotDetermined",
          "%d of %d" % (sum(1 for r in gp if r["a4_result"].get("terminated") and r["a4_result"]["final_verdict"] == "NotDetermined"), unv),
          "gated placement", "final")
-    paths_h, cycles_f, bound, reinv, no_reengage = _recovery(G), _cycles(GF), {}, {}, {}
+    paths_h, bound, reinv, no_reengage = _recovery(G), {}, {}, {}
     for name, recs in (("healthy", G), ("faulted", GF)):
         fin = [r for r in recs if r["a4_result"]["final_verdict"] == "Fulfilled"]
         bound[name] = sum(1 for r in fin if not (_remedies(r) & REINV))
@@ -220,9 +216,6 @@ def main():
     emit("§5.3", "healthy recovered = re-invoke + re-check + service wait",
          "%d = %d + %d + %d" % (sum(paths_h[k] for k in ("re-invoke", "re-check", "service wait")),
                                 paths_h["re-invoke"], paths_h["re-check"], paths_h["service wait"]), POP_G, "trial")
-    emit("§5.3", "faulted gate cycles (wait / re-check / re-invoke)",
-         "%d / %d / %d" % (cycles_f["wait_repoll"], cycles_f["escalate"], cycles_f["reinvoke_agent"] + cycles_f["reinvoke_then_wait"]),
-         POP_GF, "cycle")
     for name in ("healthy", "faulted"):
         first = [_first_attempt_calls(r) for r in reinv[name]]
         assert all(sep for _, sep in first), "attempt-1 boundary not separable in a re-invoked trial"
@@ -230,7 +223,7 @@ def main():
         tried = sum(1 for (calls, _), r in zip(first, reinv[name])
                     if any(c.get("name") == "schedule_file_replication" and
                            (c.get("args") or {}).get("target_provider_id") == _target(r) for c in calls))
-        emit("§5.3", "re-invoked trials whose first attempt had no valid target operation (%s)" % name,
+        emit("§5.3 (basis of the always-wait bound)", "re-invoked trials whose first attempt had no valid target operation (%s)" % name,
              "%d of %d (%d of them sent a schedule to the target with a malformed file path, rejected by the service)"
              % (lack, len(reinv[name]), tried), POP_G if name == "healthy" else POP_GF,
              "first attempt; its calls are the recorded calls before 45 s (the cycle-1 verify window closes at 45 s, "
@@ -391,10 +384,6 @@ def _recovery(recs):
     return c
 
 
-def _cycles(recs):
-    return Counter(s.get("remedy") for r in recs for s in r["a4_result"]["remedy_trail"])
-
-
 def _target(r):
     return (r["expected"]["per_term"][g.T].get("target_providers") or [None])[0]
 
@@ -456,12 +445,12 @@ def _a6_numbers():
     def med(pred, n, d, key):
         return st.median(m[key] for m in runs if m["pred"] == pred and m["n"] == n and m["delta"] == d)
     base_p50 = st.median(m["canary_p50_ms"] for m in runs if m["pred"] == "baseline")
-    out = [("CPU core-s per contract-minute at 3 s (N = 1 / 10 / 50 / 100)",
-            " / ".join("%.3f" % med("placement", n, 3.0, "cpu_core_s_per_contract_min") for n in (1, 10, 50, 100)))]
+    out = [("CPU core-s per contract-minute at %s s (N = 1 / 10 / 50 / 100)" % ("%g" % d),
+            " / ".join("%.3f" % med("placement", n, d, "cpu_core_s_per_contract_min") for n in (1, 10, 50, 100)))
+           for d in (3.0, 5.0, 1.0)]
     cpu100 = med("placement", 100, 3.0, "cpu_core_s_per_contract_min")
     out.append(("100 contracts at 3 s: cores used / peak RSS MiB",
                 "%.2f / %.0f" % (cpu100 * 100 / 60.0, med("placement", 100, 3.0, "peak_rss_mib"))))
-    out.append(("100 contracts at 3 s: schedule drift p95 (s)", "%.2f" % med("placement", 100, 3.0, "drift_p95_s")))
     out.append(("probe failures, all cells", sum(m["probe_failed"] for m in runs)))
     cells = {(m["pred"], m["n"], m["delta"]) for m in runs if m["pred"] != "baseline"}
     ratios = [med(p, n, d, "canary_p50_ms") / base_p50 for p, n, d in cells]

@@ -68,23 +68,36 @@ regenerated files in `outputs.regenerated/`. `make tables` overwrites `outputs/`
 population and stops if any file is missing or extra. It reads only `recordings/`, makes
 no network calls and invokes no model, so repeated runs are byte-identical.
 
-| Table (paper) | Output file |
-|---|---|
-| Study cells (included/planned) | `outputs/tab-study-matrix-body.tex` |
-| Read-back classes of false completion reports | `outputs/tab2-readback-classes-body.tex` |
-| Placement-policy error incidence | `outputs/tab3-placement-misjudgment-body.tex` |
-| Deletion false passes | `outputs/tab5-deletion-misjudgment-body.tex` |
-| Attribution accounting | `outputs/tab6-attribution-body.tex` |
-| First-attempt failures recovered, by mechanism | `outputs/tab7-rescue-mechanism-body.tex` |
-| Runtime-activity index per verified completion | `outputs/tab8-cost-body.tex` |
-| Gate outcomes | `outputs/tab9-gate-outcomes-body.tex` |
-| Deadline sensitivity | `outputs/tab10-deadline-sensitivity-body.tex` |
-| Recorded model charges, with and without the gate | `outputs/tab11-cost-dollars-body.tex` |
-| Verifier overhead by open contracts and poll interval | `outputs/a6-overhead-table.md` (per run: `outputs/a6-cellruns.json`) |
+| Paper | Content | Output file |
+|---|---|---|
+| Table 3 | Study cells (included/planned) | `outputs/tab-study-matrix-body.tex` |
+| Table 4 | Read-back classes of false completion reports | `outputs/tab2-readback-classes-body.tex` |
+| Table 5 | Placement-policy error incidence | `outputs/tab3-placement-misjudgment-body.tex` |
+| Table 6 | Deadline sensitivity | `outputs/tab10-deadline-sensitivity-body.tex` |
+| Table 7 | Deletion false passes | `outputs/tab5-deletion-misjudgment-body.tex` |
+| Table 8 | Attribution accounting | `outputs/tab6-attribution-body.tex` |
+| Table 9 | Gate outcomes | `outputs/tab9-gate-outcomes-body.tex` |
+| Table 10 | First-attempt failures recovered, by mechanism | `outputs/tab7-rescue-mechanism-body.tex` |
+| Table 11 | Runtime-activity index per verified completion | `outputs/tab8-cost-body.tex` |
+| Table 12 | Recorded model charges, with and without the gate | `outputs/tab11-cost-dollars-body.tex` |
+| Sect. 5.3 | Verifier overhead by open contracts and poll interval | `outputs/a6-overhead-table.md` (per run: `outputs/a6-cellruns.json`) |
 
-Every number stated in the paper's text is in `outputs/in-text-numbers.txt`, one line per
-number, with its section, population and level (trial, cycle, first attempt or final).
-The contract-instance table is descriptive and is not computed.
+Tables 1 and 2 are descriptive and are not computed. Every number stated in the paper's
+text is in `outputs/in-text-numbers.txt`, one line per number, with its section,
+population and level (trial, cycle, first attempt or final); two further lines, marked as
+the basis of the always-wait bound, give the counts that bound rests on.
+
+The paper's replication paragraph lists the following contents:
+
+| Content | Where |
+|---|---|
+| trial records | `recordings/`, described in `RECORDINGS.md` |
+| endpoint and generation settings | `config/arms.json`, `config/models.md`, `config/judge.md`, `config/derivation.md`; per trial in `model_config` |
+| run order | per trial in `trial_start_utc`; for the overhead benchmark in `recordings/a6_overhead--20260926/manifest.json` |
+| setup eligibility | per trial in `expected.per_term.<term>.setup_invalid` (see `RECORDINGS.md`) |
+| reset procedures | `harness/provision.py` (`create_space`, `teardown_space`: a fresh space per run) and `harness/fixtures.py` (`write_trial_file`, `teardown_trial`: per-trial file setup and removal) |
+| verdict and attribution code | `scoring/` |
+| table-generation scripts | `regenerate.py`, `a6_table.py`, `in_text.py` |
 
 ## Offline check
 

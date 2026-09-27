@@ -362,13 +362,13 @@ agreement when evidence observable & %s \\
     body = ""
     for k in sorted(cost, key=lambda x: (cost[x].get("h", 0), cost[x].get("f", 0))):
         body += "%s & %.2f & %.2f \\\\\n" % (SHORT.get(k, k), cost[k]["h"], cost[k]["f"])
-    write("tab8-cost-body.tex", r"""\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l c c@{}}
+    write("tab8-cost-body.tex", r"""\begin{tabular}{@{}p{2.6cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.3cm}@{}}
 \hline
-& \multicolumn{2}{c}{\textbf{Runtime-activity index per verified completion}} \\
+& \multicolumn{2}{c}{\textbf{Runtime-activity index}} \\
 \textbf{Model} & \textbf{Healthy} & \textbf{Injected delay} \\
 \hline
 """ + body + r"""\hline
-\end{tabular*}
+\end{tabular}
 """)
     oh, of_ = mh["overall"], mf["overall"]
     rh = oh["final_fulfilled"] - oh["first_attempt_fulfilled"]
